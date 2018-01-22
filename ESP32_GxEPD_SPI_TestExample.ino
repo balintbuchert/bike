@@ -25,7 +25,7 @@
          |  nc   |o o| BS      GND
          |-------------------------------------------------
 */
-
+ 
 // Supporting Arduino Forum Topics:
 // Waveshare e-paper displays with SPI: http://forum.arduino.cc/index.php?topic=487007.0
 // Good Dispay ePaper for Arduino : https://forum.arduino.cc/index.php?topic=436411.0
@@ -75,432 +75,123 @@
 #include <GxIO/GxIO_SPI/GxIO_SPI.cpp>
 #include <GxIO/GxIO.cpp>
 
-#if defined(ESP8266)
-
-// generic/common.h
-//static const uint8_t SS    = 15;
-//static const uint8_t MOSI  = 13;
-//static const uint8_t MISO  = 12;
-//static const uint8_t SCK   = 14;
-// pins_arduino.h
-//static const uint8_t D8   = 15;
-//static const uint8_t D7   = 13;
-//static const uint8_t D6   = 12;
-//static const uint8_t D5   = 14;
-
-// GxIO_SPI(SPIClass& spi, int8_t cs, int8_t dc, int8_t rst = -1, int8_t bl = -1);
-GxIO_Class io(SPI, SS, 0, 2); // arbitrary selection of D3(=0), D4(=2), selected for default of GxEPD_Class
-// GxGDEP015OC1(GxIO& io, uint8_t rst = 2, uint8_t busy = 4);
-GxEPD_Class display(io); // default selection of D4(=2), D2(=4)
-
-#elif defined(ESP32)
-
 // pins_arduino.h, e.g. LOLIN32
 //static const uint8_t SS    = 5;   CS
 //static const uint8_t MOSI  = 23;  DIN
 //static const uint8_t MISO  = 19;  Do
 //static const uint8_t SCK   = 18;  CLK
 
+/* ESP32
+    eink Display    ESP32
+    Busy        IO04
+    reset       IO16
+    DC          IO17
+    CS          IO5
+    CLK         IO18
+    DIN         IO23
+    GND         GND
+    3.3V        3.3V
+ */
+
 // GxIO_SPI(SPIClass& spi, int8_t cs, int8_t dc, int8_t rst = -1, int8_t bl = -1);
 GxIO_Class io(SPI, SS, 17, 16); // arbitrary selection of 17, 16
 // GxGDEP015OC1(GxIO& io, uint8_t rst = D4, uint8_t busy = D2);
 GxEPD_Class display(io, 16, 4); // arbitrary selection of (16), 4
 
-#elif defined(ARDUINO_ARCH_SAMD)
 
-// variant.h of MKR1000
-//#define PIN_SPI_MISO  (10u)
-//#define PIN_SPI_MOSI  (8u)
-//#define PIN_SPI_SCK   (9u)
-//#define PIN_SPI_SS    (24u) // should be 4?
-// variant.h of MKRZERO
-//#define PIN_SPI_MISO  (10u)
-//#define PIN_SPI_MOSI  (8u)
-//#define PIN_SPI_SCK   (9u)
-//#define PIN_SPI_SS    (4u)
+//#if defined(_GxGDEP015OC1_H_)
+const uint32_t partial_update_period_s = 1;
+const uint32_t full_update_period_s = 6 * 60 * 60;
+//#elif defined(_GxGDE0213B1_H_) || defined(_GxGDEH029A1_H_) || defined(_GxGDEW042T2_H_) || defined(_GxGDEW042T2_FPU_H_)
+//const uint32_t partial_update_period_s = 2;
+//const uint32_t full_update_period_s = 1 * 60 * 60;
+//#endif
 
-GxIO_Class io(SPI, 4, 7, 6);
-GxEPD_Class display(io, 6, 5);
+uint32_t start_time;
+uint32_t next_time;
+uint32_t next_full_update;
 
-#elif defined(_BOARD_GENERIC_STM32F103C_H_)
-
-// STM32 Boards (STM32duino.com)
-// Generic STM32F103C series
-// aka BluePill
-// board.h
-//#define BOARD_SPI1_NSS_PIN        PA4
-//#define BOARD_SPI1_MOSI_PIN       PA7
-//#define BOARD_SPI1_MISO_PIN       PA6
-//#define BOARD_SPI1_SCK_PIN        PA5
-//enum {
-//    PA0, PA1, PA2, PA3, PA4, PA5, PA6, PA7, PA8, PA9, PA10, PA11, PA12, PA13,PA14,PA15,
-//  PB0, PB1, PB2, PB3, PB4, PB5, PB6, PB7, PB8, PB9, PB10, PB11, PB12, PB13,PB14,PB15,
-//  PC13, PC14,PC15
-//};
-// variant.h
-//static const uint8_t SS   = BOARD_SPI1_NSS_PIN;
-//static const uint8_t SS1  = BOARD_SPI2_NSS_PIN;
-//static const uint8_t MOSI = BOARD_SPI1_MOSI_PIN;
-//static const uint8_t MISO = BOARD_SPI1_MISO_PIN;
-//static const uint8_t SCK  = BOARD_SPI1_SCK_PIN;
-
-// original mapping suggestion for STM32F1, e.g. STM32F103C8T6 "BluePill"
-// BUSY -> A3, RST -> A9, DC -> A8, CS-> A4, CLK -> A5, DIN -> A7
-
-// GxIO_SPI(SPIClass& spi, int8_t cs, int8_t dc, int8_t rst = -1, int8_t bl = -1);
-//GxIO_Class io(SPI, SS, 8, 9);
-// GxGDEP015OC1(GxIO& io, uint8_t rst = 9, uint8_t busy = 7);
-//GxEPD_Class display(io, 9, 3);
-
-// new mapping suggestion for STM32F1, e.g. STM32F103C8T6 "BluePill"
-// BUSY -> A1, RST -> A2, DC -> A3, CS-> A4, CLK -> A5, DIN -> A7
-
-// GxIO_SPI(SPIClass& spi, int8_t cs, int8_t dc, int8_t rst = -1, int8_t bl = -1);
-GxIO_Class io(SPI, SS, 3, 2);
-// GxGDEP015OC1(GxIO& io, uint8_t rst = 9, uint8_t busy = 7);
-GxEPD_Class display(io, 2, 1);
-
-#else
-
-// pins_arduino.h, e.g. AVR
-//#define PIN_SPI_SS    (10)
-//#define PIN_SPI_MOSI  (11)
-//#define PIN_SPI_MISO  (12)
-//#define PIN_SPI_SCK   (13)
-
-GxIO_Class io(SPI, SS, 8, 9); // arbitrary selection of 8, 9 selected for default of GxEPD_Class
-GxEPD_Class display(io);
-
-#endif
-
-
-void setup()
+void setup(void)
 {
   Serial.begin(115200);
   Serial.println();
   Serial.println("setup");
-
   display.init();
-
   Serial.println("setup done");
+  display.setTextColor(GxEPD_BLACK);
+  display.setRotation(1);
+  // draw background
+
+  //display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
+  display.update();
+  display.setFont(&FreeMonoBold12pt7b);
+
+  // partial update to full screen to preset for partial update of box window
+  // (this avoids strange background effects)
+  //display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1), GxEPD::bm_default | GxEPD::bm_partial_update);
+  start_time = next_time = millis();
+  next_full_update = start_time + full_update_period_s * 1000;
 }
+
 
 void loop()
 {
-  showBitmapExample();
-  delay(2000);
-#if !defined(__AVR)
-  drawCornerTest();
-  showFont("FreeMonoBold9pt7b", &FreeMonoBold9pt7b);
-  showFont("FreeMonoBold12pt7b", &FreeMonoBold12pt7b);
-  //showFont("FreeMonoBold18pt7b", &FreeMonoBold18pt7b);
-  //showFont("FreeMonoBold24pt7b", &FreeMonoBold24pt7b);
-#else
-  display.drawCornerTest();
-  delay(2000);
-  display.drawPaged(showFontCallback);
-#endif
-  delay(10000);
+  showPartialUpdate(); 
+  next_time += partial_update_period_s * 1000;
+  while (millis() < next_time) delay(100);
 }
 
-#if defined(_GxGDEP015OC1_H_)
-void showBitmapExample()
-{
-  display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample2, sizeof(BitmapExample2));
-  delay(5000);
-  display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-  delay(5000);
-  showBoat();
-}
-#endif
 
-#if defined(_GxGDEW0154Z04_H_)
-#define HAS_RED_COLOR
-void showBitmapExample()
-{
-#if !defined(__AVR)
-  display.drawPicture(BitmapWaveshare_black, BitmapWaveshare_red, sizeof(BitmapWaveshare_black), sizeof(BitmapWaveshare_red), GxEPD::bm_normal);
-  delay(5000);
-#endif
-  display.drawExamplePicture(BitmapExample1, BitmapExample2, sizeof(BitmapExample1), sizeof(BitmapExample2));
-  delay(5000);
-}
-#endif
 
-#if defined(_GxGDE0213B1_H_)
-void showBitmapExample()
+void print02d(uint32_t d)
 {
-  display.drawBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawBitmap(BitmapExample2, sizeof(BitmapExample2));
-  delay(5000);
-#if !defined(__AVR)
-  display.drawBitmap(first, sizeof(first));
-  delay(5000);
-  display.drawBitmap(second, sizeof(second));
-  delay(5000);
-  display.drawBitmap(third, sizeof(third));
-  delay(5000);
-#endif
-  display.fillScreen(GxEPD_WHITE);
-  display.drawBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-  delay(5000);
-  showBoat();
-}
-#endif
-
-#if defined(_GxGDEW0213Z16_H_)
-#define HAS_RED_COLOR
-void showBitmapExample()
-{
-  display.drawPicture(BitmapWaveshare_black, BitmapWaveshare_red, sizeof(BitmapWaveshare_black), sizeof(BitmapWaveshare_red));
-  delay(5000);
-  display.drawExamplePicture(BitmapExample1, BitmapExample2, sizeof(BitmapExample1), sizeof(BitmapExample2));
-  delay(5000);
-#if !defined(__AVR)
-  display.drawExamplePicture(BitmapExample3, BitmapExample4, sizeof(BitmapExample3), sizeof(BitmapExample4));
-  delay(5000);
-#endif
-  display.drawExampleBitmap(BitmapWaveshare_black, sizeof(BitmapWaveshare_black));
-  delay(2000);
-  // example bitmaps for b/w/r are normal on b/w, but inverted on red
-  display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample2, sizeof(BitmapExample2), GxEPD::bm_invert);
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-}
-#endif
-
-#if defined(_GxGDEH029A1_H_)
-void showBitmapExample()
-{
-  display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample2, sizeof(BitmapExample2));
-  delay(5000);
-  display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-  delay(5000);
-  showBoat();
-}
-#endif
-
-#if defined(_GxGDEW029Z10_H_)
-#define HAS_RED_COLOR
-void showBitmapExample()
-{
-#if defined(__AVR)
-  display.drawExamplePicture(BitmapExample1, BitmapExample2, sizeof(BitmapExample1), sizeof(BitmapExample2));
-  delay(5000);
-#else
-  display.drawPicture(BitmapWaveshare_black, BitmapWaveshare_red, sizeof(BitmapWaveshare_black), sizeof(BitmapWaveshare_red));
-  delay(5000);
-  display.drawExamplePicture(BitmapExample1, BitmapExample2, sizeof(BitmapExample1), sizeof(BitmapExample2));
-  delay(5000);
-  display.drawExamplePicture(BitmapExample3, BitmapExample4, sizeof(BitmapExample3), sizeof(BitmapExample4));
-  delay(5000);
-  display.drawExampleBitmap(BitmapWaveshare_black, sizeof(BitmapWaveshare_black));
-  delay(2000);
-  // example bitmaps for b/w/r are normal on b/w, but inverted on red
-  display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample2, sizeof(BitmapExample2), GxEPD::bm_invert);
-  delay(2000);
-#endif
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-}
-#endif
-
-#if defined(_GxGDEW027C44_H_)
-#define HAS_RED_COLOR
-void showBitmapExample()
-{
-  // draw black and red bitmap
-  display.drawPicture(BitmapExample1, BitmapExample2, sizeof(BitmapExample1), sizeof(BitmapExample2));
-  delay(5000);
-  return;
-  display.drawBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.fillScreen(GxEPD_WHITE);
-  display.drawBitmap(0, 0, BitmapExample1, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-}
-#endif
-
-#if defined(_GxGDEW027W3_H_)
-void showBitmapExample()
-{
-  display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-#if !defined(__AVR)
-  display.drawExampleBitmap(BitmapExample2, sizeof(BitmapExample2));
-#endif
-  delay(2000);
-  display.drawExampleBitmap(BitmapWaveshare, sizeof(BitmapWaveshare));
-  delay(5000);
-  display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-}
-#endif
-
-#if defined(_GxGDEW042T2_H_) || defined(_GxGDEW042T2_FPU_H_)
-void showBitmapExample()
-{
-#if defined(__AVR)
-  display.drawBitmap(BitmapExample1, sizeof(BitmapExample1));
-#else
-  display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample2, sizeof(BitmapExample2));
-  delay(5000);
-  display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-#endif
-}
-#endif
-
-#if defined(_GxGDEW042Z15_H_)
-#define HAS_RED_COLOR
-void showBitmapExample()
-{
-#if defined(__AVR)
-  display.drawBitmap(BitmapExample1, sizeof(BitmapExample1));
-#else
-  // draw black and red bitmap
-  display.drawPicture(BitmapExample1, BitmapExample2, sizeof(BitmapExample1), sizeof(BitmapExample2));
-  delay(5000);
-  display.drawPicture(BitmapExample3, BitmapExample4, sizeof(BitmapExample3), sizeof(BitmapExample4));
-  delay(5000);
-  display.drawPicture(BitmapWaveshare_black, BitmapWaveshare_red, sizeof(BitmapWaveshare_black), sizeof(BitmapWaveshare_red));
-  delay(5000);
-  display.drawBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-#endif
-}
-#endif
-
-#if defined(_GxGDEW075T8_H_) || defined(_GxGDEW075Z09_H_)
-void showBitmapExample()
-{
-#if defined(__AVR)
-  //display.drawBitmap(BitmapExample1, sizeof(BitmapExample1));
-#else
-  display.drawExampleBitmap(BitmapExample1, sizeof(BitmapExample1));
-  delay(2000);
-  display.drawExampleBitmap(BitmapExample2, sizeof(BitmapExample2));
-  delay(5000);
-  display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-  display.update();
-#endif
-}
-#endif
-
-void showFont(const char name[], const GFXfont* f)
-{
-  display.fillScreen(GxEPD_WHITE);
-  display.setTextColor(GxEPD_BLACK);
-  display.setFont(f);
-  display.setCursor(0, 0);
-  display.println();
-  display.println(name);
-  display.println(" !\"#$%&'()*+,-./");
-  display.println("0123456789:;<=>?");
-  display.println("@ABCDEFGHIJKLMNO");
-  display.println("PQRSTUVWXYZ[\\]^_");
-#if defined(HAS_RED_COLOR)
-  display.setTextColor(GxEPD_RED);
-#endif
-  display.println("`abcdefghijklmno");
-  display.println("pqrstuvwxyz{|}~ ");
-  display.update();
-  delay(5000);
+  if (d < 10) display.print("0");
+  display.print(d);
 }
 
-void showFontCallback()
+void showPartialUpdate()
 {
-  const char* name = "FreeMonoBold9pt7b";
-  const GFXfont* f = &FreeMonoBold9pt7b;
-  display.fillScreen(GxEPD_WHITE);
-  display.setTextColor(GxEPD_BLACK);
-  display.setFont(f);
-  display.setCursor(0, 0);
-  display.println();
-  display.println(name);
-  display.println(" !\"#$%&'()*+,-./");
-  display.println("0123456789:;<=>?");
-  display.println("@ABCDEFGHIJKLMNO");
-  display.println("PQRSTUVWXYZ[\\]^_");
-#if defined(HAS_RED_COLOR)
-  display.setTextColor(GxEPD_RED);
-#endif
-  display.println("`abcdefghijklmno");
-  display.println("pqrstuvwxyz{|}~ ");
+  uint16_t box_x = 10;
+  uint16_t box_y = 15;
+  uint16_t box_w = 170;
+  uint16_t box_h = 40;
+  uint16_t cursor_y = box_y + 16;
+  uint32_t elapsed_seconds = (millis() - start_time) / 1000;
+  uint32_t seconds = elapsed_seconds % 60;
+  uint32_t minutes = (elapsed_seconds / 60) % 60;
+  uint32_t hours = (elapsed_seconds / 3600) % 24;
+  uint32_t days = (elapsed_seconds / 3600) / 24;
+  bool test_v = false;
+  display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
+  display.setCursor(box_x, cursor_y);
+  display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
+  //display.print(days); display.print("d "); print02d(hours); display.print(":"); print02d(minutes); display.print(":"); print02d(seconds);
+  display.setCursor(box_x, cursor_y+20);
+  //display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
+  display.printf("%d\n", test_v);
+  display.updateWindow(box_x, box_y, box_w, box_h, true);
 }
 
-void drawCornerTest()
+
+/*
+void drawCallback()
 {
-  display.drawCornerTest();
-  delay(5000);
-  uint8_t rotation = display.getRotation();
-  for (uint16_t r = 0; r < 4; r++)
-  {
-    display.setRotation(r);
-    display.fillScreen(GxEPD_WHITE);
-    display.fillRect(0, 0, 8, 8, GxEPD_BLACK);
-    display.fillRect(display.width() - 18, 0, 16, 16, GxEPD_BLACK);
-    display.fillRect(display.width() - 25, display.height() - 25, 24, 24, GxEPD_BLACK);
-    display.fillRect(0, display.height() - 33, 32, 32, GxEPD_BLACK);
-    display.update();
-    delay(5000);
-  }
-  display.setRotation(rotation); // restore
+  uint16_t box_x = 10;
+  uint16_t box_y = 15;
+  uint16_t box_w = 170;
+  uint16_t box_h = 20;
+  uint16_t cursor_y = box_y + 16;
+  uint32_t elapsed_seconds = (millis() - start_time) / 1000;
+  uint32_t seconds = elapsed_seconds % 60;
+  uint32_t minutes = (elapsed_seconds / 60) % 60;
+  uint32_t hours = (elapsed_seconds / 3600) % 24;
+  uint32_t days = (elapsed_seconds / 3600) / 24;
+  display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
+  display.setCursor(box_x, cursor_y);
+  display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
+  display.print(days); display.print("d "); print02d(hours); display.print(":"); print02d(minutes); display.print(":"); print02d(seconds);
 }
 
-#if defined(_GxGDEP015OC1_H_) || defined(_GxGDE0213B1_H_) || defined(_GxGDEH029A1_H_)
-#include "IMG_0001.h"
-void showBoat()
-{
-  // thanks to bytecrusher: http://forum.arduino.cc/index.php?topic=487007.msg3367378#msg3367378
-  uint16_t x = (display.width() - 64) / 2;
-  uint16_t y = 5;
-  display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(gImage_IMG_0001, x, y, 64, 180, GxEPD_BLACK);
-  display.update();
-  delay(500);
-  uint16_t forward = GxEPD::bm_invert | GxEPD::bm_flip_x;
-  uint16_t reverse = GxEPD::bm_invert | GxEPD::bm_flip_x | GxEPD::bm_flip_y;
-  for (; y + 180 + 5 <= display.height(); y += 5)
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.drawExampleBitmap(gImage_IMG_0001, x, y, 64, 180, GxEPD_BLACK, forward);
-    display.updateWindow(0, 0, display.width(), display.height());
-    delay(500);
-  }
-  delay(1000);
-  for (; y >= 5; y -= 5)
-  {
-    display.fillScreen(GxEPD_WHITE);
-    display.drawExampleBitmap(gImage_IMG_0001, x, y, 64, 180, GxEPD_BLACK, reverse);
-    display.updateWindow(0, 0, display.width(), display.height());
-    delay(1000);
-  }
-  display.update();
-  delay(1000);
-}
-#endif
+*/
 
 
