@@ -22,10 +22,10 @@ const int analogIn = 34;
 String output;// json main output string
 
 
-
 ////////
 
 // init Json objectl
+
  StaticJsonBuffer<200> jsonBuffer;
  JsonObject& root = jsonBuffer.createObject();
  char data[80];
@@ -46,13 +46,14 @@ void mqtt_bike_init()
   root["w"] = 0.44;
   root["id"] = HW_ID;
   root ["V"] = 12.1;
-
+  
  
   JsonArray& data = root.createNestedArray("data");
   data.add(48.756080);
   data.add(2.302038);  
 }
 
+/// end of inint 
 
 void receivedCallback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message received: ");
@@ -140,6 +141,7 @@ void mqttconnect() {
 }
 
 void mqtt_bike_loop(){
+  
    initDisplayData( onoff, randNumber, bikePos);
    
     /* if client was disconnected then try to reconnect again */
@@ -158,7 +160,7 @@ void mqtt_bike_loop(){
   
   switch (com){
     case 1: // start
-       calcWh( randNumber/40);
+       //calcWh( randNumber/40);
         calcWh2(); 
     }
 
@@ -169,7 +171,7 @@ void mqtt_bike_loop(){
     /* read DHT11/DHT22 sensor and convert to string */
     int temperature = 20;//dht.readTemperature();
     //randNumber = random(300) /100.0 *10;
-    //randNumber = analogRead(analogIn);
+    randNumber = analogRead(analogIn);
     Serial.println(randNumber);
     
     if (!isnan(randNumber)) {
@@ -188,15 +190,11 @@ void mqtt_bike_loop(){
       
   }
 
-  String value = "\"number\": " + String(analogRead(A0)) ;
- String value2 = ", \"word\": \"Hello World\" " ;
- 
- // Add both value together to send as one string. 
-  value = value + value2;
-  // This sends off your payload. Json file. 
- 
+  root["w"] = get_watt();
   
-  String payload = output;//"{ \"devices\": \"*\",\"payload\": {" + value + "}}";
+  
+  String payload ; 
+  root.printTo(payload);
   payload.toCharArray(data, (payload.length() + 1));
   
   client.publish("message", data);

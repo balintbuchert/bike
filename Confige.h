@@ -26,6 +26,7 @@
 #include <ArduinoJson.h>
 #include "Display.h"
 #include "mqtt_bike.h"
+#include "energy_monitor.h"
 
 /* bike hardware ID*/
 #define HW_ID  1 

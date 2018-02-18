@@ -29,18 +29,13 @@
 
 
 
-
-
-
 void setup(void){
 
   init();
   
-  randomSeed(analogRead(0));
-  
+  randomSeed(analogRead(0));  
   Serial.println("setup done");
-
-  
+ 
  initDisplay();
  
 }

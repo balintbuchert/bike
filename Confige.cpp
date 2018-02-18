@@ -11,6 +11,7 @@
 #define INTERVAL 1000  // sampling interval in millisec
 #define HR_TO_SEC 2.778E-4  // number of hours in a second
 
+
 const int analogIn = 34;
 
 int curr_rate = 0;  // current flow rate in L/hr
@@ -62,6 +63,8 @@ The unit produces 133mv per amp of current, so
 divide by 0.133 to convert mv to ma
          
 */
+
+
  batVal =  12; // analogRead(batMonPin);    // read the voltage on the divider 
  pinVoltage = batVal * 0.00488;       //  Calculate the voltage on the A/D pin
                                    //  A reading of 1 for the A/D = 0.0048mV
@@ -112,6 +115,7 @@ divide by 0.133 to convert mv to ma
  Serial.println(wattHours);
   
   }
+
 
 void calcWh( int newValue)
 {

@@ -42,7 +42,7 @@ void initDisplay()
   display.setTextColor(GxEPD_BLACK);
   display.setRotation(1);
   
-   display.update();
+  display.update();
   display.setFont(&FreeMonoBold12pt7b);
   start_time = next_time = millis();
   next_full_update = start_time + full_update_period_s * 1000;
