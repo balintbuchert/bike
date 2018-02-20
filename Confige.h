@@ -62,6 +62,7 @@ on Linux use "ifconfig" to get its IP address */
 #define COM_TOPIC     "bikes/bike1/com"
 #define WH_TOPIC      "bikes/bike1/wh"
 #define MAIN_TOPIC    "bikes/bike1/#"
+#define TIMER_TOPIC   "bikes/bike1/timer"
 
 
 

@@ -1,5 +1,5 @@
 #include "Arduino.h"
-//#include "Confige.h"
+#include "Confige.h"
 #include "Display.h"
 
 // MAIN INCLUDE:
@@ -82,6 +82,10 @@ void showTestUpdate( )
   uint32_t hours = (elapsed_seconds / 3600) % 24;
   uint32_t days = (elapsed_seconds / 3600) / 24;
   bool test_v = onoff2;
+  char buf[30];
+  //char timer[6] = 
+  getCounter().toCharArray(buf,  getCounter().length()+1);// "0:0";
+  
   int vTmp = randNumber2/20;
   display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
   display.setCursor(box_x, cursor_y);
@@ -89,8 +93,8 @@ void showTestUpdate( )
   //display.print(days); display.print("d "); print02d(hours); display.print(":"); print02d(minutes); display.print(":"); print02d(seconds);
   display.setCursor(box_x, cursor_y+20);
   //display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
-  display.printf("LED:%d V:%.1d \n", test_v, vTmp);
-
+  //display.printf("LED:%d V:%.1d \n", test_v, vTmp);
+  display.printf("T: %s",buf);
   display.setCursor(box_x, cursor_y+40);
   display.printf("POS: %d \n", bikePos2-48 );
 

@@ -10,6 +10,7 @@ PubSubClient client(espClient);
 
 char bikePos = '0';
 int  com = 1;     // the tompic command 0 : stop / 1 : start "runing" / 2 : reset 
+String counter = "0:0 ";
 
 long lastMsg = 0;
 char msg[20];
@@ -84,6 +85,16 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
       }
 
 
+  // tcounter
+  // pos check and load
+  if(strcmp(topic, TIMER_TOPIC) == 0)
+    {
+       payload[length] = '\0';
+       counter = String((char*)payload);
+      }
+
+
+        
   // com topic
   if(strcmp(topic, COM_TOPIC) == 0)   
      if (!isnan((int)payload[0])) {          
@@ -111,6 +122,8 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
               Serial.println("no messgae/n");
         }// end of case                     
       }// end of if
+
+    
      
 }
 
@@ -126,9 +139,10 @@ void mqttconnect() {
       Serial.println("connected");
       /* subscribe topic with default QoS 0*/
       //client.subscribe(LED_TOPIC);
-      //client.subscribe(POS_TOPIC);
-      //client.subscribe(COM_TOPIC);
-      client.subscribe(MAIN_TOPIC);
+      client.subscribe(POS_TOPIC);
+      client.subscribe(COM_TOPIC);
+      client.subscribe(TIMER_TOPIC);
+      //client.subscribe(MAIN_TOPIC);
       
     } else {
       Serial.print("failed, status code =");
@@ -200,5 +214,9 @@ void mqtt_bike_loop(){
   client.publish("message", data);
 
   
+  }
+
+String getCounter(){
+  return counter;
   }
 ///////////////////////////////////////////////////////
