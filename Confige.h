@@ -56,13 +56,13 @@ on Linux use "ifconfig" to get its IP address */
 
 /* topics */
 
-#define TEMP_TOPIC    "bikes/bike1/temp"
+//#define TEMP_TOPIC    "bikes/bike1/temp"
 #define LED_TOPIC     "bikes/bike1/led" /* 1=on, 0=off */
 #define POS_TOPIC     "bikes/bike1/pos"
-#define COM_TOPIC     "bikes/bike1/com"
-#define WH_TOPIC      "bikes/bike1/wh"
-#define MAIN_TOPIC    "bikes/bike1/#"
-#define TIMER_TOPIC   "bikes/bike1/timer"
+#define COM_TOPIC     "bikes/com"
+//#define WH_TOPIC      "bikes/bike1/wh"
+//#define MAIN_TOPIC    "bikes/bike1/#"
+#define TIMER_TOPIC   "bikes/timer"
 
 
 

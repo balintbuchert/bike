@@ -187,13 +187,14 @@ void mqtt_bike_loop(){
     //randNumber = random(300) /100.0 *10;
     randNumber = analogRead(analogIn);
     Serial.println(randNumber);
-    
+    /*
     if (!isnan(randNumber)) {
       snprintf (msg, 20, "%lf", randNumber/40);
       /* publish the message */
-       client.publish(TEMP_TOPIC, msg);
+       //client.publish(TEMP_TOPIC, msg);
        
-    }
+   // }
+    
     /* need a total volume re instert vith function 
     if (!isnan(totalVolume)){
        snprintf (msg2, 20, "%lf", totalVolume);
@@ -211,7 +212,7 @@ void mqtt_bike_loop(){
   root.printTo(payload);
   payload.toCharArray(data, (payload.length() + 1));
   
-  client.publish("message", data);
+  client.publish("bikes/message", data);
 
   
   }
