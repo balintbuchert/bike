@@ -22,7 +22,7 @@
 
  bool onoff2 = 0;
  float randNumber2;
- char bikePos2 = '0';
+ char bikePos2 = 0; 
  
 GxIO_Class io(SPI, SS, 17, 16); // arbitrary selection of 17, 16
 GxEPD_Class display(io, 19, 4); // arbitrary selection of (16), 4 
@@ -53,7 +53,7 @@ void initDisplay()
 void initDisplayData(bool of , float r, char p){
  onoff2 = of;
  randNumber2 = r;
- bikePos2 = p;
+ //bikePos2 = p;
  
 
 }
@@ -83,7 +83,8 @@ void showTestUpdate( )
   uint32_t days = (elapsed_seconds / 3600) / 24;
   bool test_v = onoff2;
   char buf[30];
-  //char timer[6] = 
+  
+  int bikePos = getBikePos(); 
   getCounter().toCharArray(buf,  getCounter().length()+1);// "0:0";
   
   int vTmp = randNumber2/20;
@@ -96,7 +97,7 @@ void showTestUpdate( )
   //display.printf("LED:%d V:%.1d \n", test_v, vTmp);
   display.printf("T: %s",buf);
   display.setCursor(box_x, cursor_y+40);
-  display.printf("POS: %d \n", bikePos2-48 );
+  display.printf("POS: %d \n", bikePos-48 );
 
   display.fillRect(0   ,box_h, vTmp, 6 ,      GxEPD_BLACK);
   display.fillRect(vTmp,box_h, box_w-vTmp , 6 , GxEPD_WHITE);

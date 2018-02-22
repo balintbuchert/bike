@@ -28,16 +28,16 @@
         "info": ""\
     \},\
     \{\
+        "id": "d1fddea9.b6ee8",\
+        "type": "tab",\
+        "label": "TIMER",\
+        "disabled": false,\
+        "info": ""\
+    \},\
+    \{\
         "id": "ac191645.5b409",\
         "type": "tab",\
         "label": "Flow 1"\
-    \},\
-    \{\
-        "id": "e14849d5.e938a",\
-        "type": "tab",\
-        "label": "Settings 2",\
-        "disabled": true,\
-        "info": ""\
     \},\
     \{\
         "id": "cf45c04.fce5e4",\
@@ -67,6 +67,14 @@
         "id": "39690dd9.a3ffd2",\
         "type": "subflow",\
         "name": "Subflow 1",\
+        "info": "",\
+        "in": [],\
+        "out": []\
+    \},\
+    \{\
+        "id": "456185fc.09d994",\
+        "type": "subflow",\
+        "name": "Subflow 2",\
         "info": "",\
         "in": [],\
         "out": []\
@@ -175,7 +183,7 @@
         "z": "",\
         "name": "Timer",\
         "tab": "88daaa56.e928e8",\
-        "order": 1,\
+        "order": 4,\
         "disp": true,\
         "width": "7"\
     \},\
@@ -308,7 +316,7 @@
         "z": "",\
         "name": "Bike 1",\
         "tab": "88daaa56.e928e8",\
-        "order": 3,\
+        "order": 1,\
         "disp": false,\
         "width": "6"\
     \},\
@@ -318,7 +326,7 @@
         "z": "",\
         "name": "Bike 2",\
         "tab": "88daaa56.e928e8",\
-        "order": 4,\
+        "order": 2,\
         "disp": false,\
         "width": "6"\
     \},\
@@ -328,7 +336,7 @@
         "z": "",\
         "name": "Bike 3",\
         "tab": "88daaa56.e928e8",\
-        "order": 5,\
+        "order": 3,\
         "disp": false,\
         "width": "6"\
     \},\
@@ -556,242 +564,6 @@
         ]\
     \},\
     \{\
-        "id": "5b24eabb.40812c",\
-        "type": "ui_text_input",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "label": "pos",\
-        "group": "d742bc28.de205",\
-        "order": 6,\
-        "width": 0,\
-        "height": 0,\
-        "passthru": true,\
-        "mode": "text",\
-        "delay": 300,\
-        "topic": "",\
-        "x": 352,\
-        "y": 96,\
-        "wires": [\
-            [\
-                "a0a1627e.b98fb"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "a0a1627e.b98fb",\
-        "type": "mqtt out",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "topic": "bikes/bike1/pos",\
-        "qos": "",\
-        "retain": "",\
-        "broker": "c26aaba8.df44d8",\
-        "x": 592.5,\
-        "y": 86,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "953a8bad.91abe",\
-        "type": "function",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "func": "m = msg.payload;\\nvar t = msg.topic;\\n\\nvar msg1 = \{ payload:\\"1\\" \};\\nvar msg2 = \{ payload: 2\};\\nvar msg3 = \{ payload: \\"33\\"\}\\n\\nvar b1W = '0';\\nvar b2W = 43;\\nvar b3W = 0;\\n\\nvar msg1 = \{ payload: b1W \};\\n\\nif(t == \\"bike1\\")\{\\n    b1W = msg;\\n\}\\n\\n\\nif(t == \\"bike1\\" )\{\\n     msg.payload = b1W;\\n     return [neMsg ,null,null ];\\n\}\\nelse if (t == \\"bike2\\")\{\\n     return [null,b2W,null];   \\n\}\\nelse \\n     return[ null, null, b3W];\\n \\n     ",\
-        "outputs": "3",\
-        "noerr": 0,\
-        "x": 350,\
-        "y": 480,\
-        "wires": [\
-            [\
-                "2d795bf4.f5019c",\
-                "1646308f.194eff"\
-            ],\
-            [\
-                "119e517f.51048f"\
-            ],\
-            [\
-                "b5704703.4a11c"\
-            ]\
-        ],\
-        "inputLabels": [\
-            "B1"\
-        ],\
-        "outputLabels": [\
-            "B2",\
-            "",\
-            ""\
-        ]\
-    \},\
-    \{\
-        "id": "2d795bf4.f5019c",\
-        "type": "ui_text",\
-        "z": "e14849d5.e938a",\
-        "group": "d742bc28.de205",\
-        "order": 7,\
-        "width": 0,\
-        "height": 0,\
-        "name": "",\
-        "label": "bike 1 pos",\
-        "format": "\{\{msg.payload\}\}",\
-        "layout": "row-spread",\
-        "x": 630,\
-        "y": 520,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "119e517f.51048f",\
-        "type": "ui_text",\
-        "z": "e14849d5.e938a",\
-        "group": "d742bc28.de205",\
-        "order": 8,\
-        "width": 0,\
-        "height": 0,\
-        "name": "",\
-        "label": "bike 2 pos",\
-        "format": "\{\{msg.payload\}\}",\
-        "layout": "row-spread",\
-        "x": 630,\
-        "y": 580,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "2feba7c8.1fe258",\
-        "type": "ui_numeric",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "label": "B1",\
-        "group": "d742bc28.de205",\
-        "order": 10,\
-        "width": 0,\
-        "height": 0,\
-        "passthru": true,\
-        "topic": "bike1",\
-        "format": "\{\{value\}\}",\
-        "min": 0,\
-        "max": 10,\
-        "step": 1,\
-        "x": 150,\
-        "y": 540,\
-        "wires": [\
-            [\
-                "953a8bad.91abe"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "f37bd067.30dff",\
-        "type": "ui_numeric",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "label": "B2",\
-        "group": "d742bc28.de205",\
-        "order": 11,\
-        "width": 0,\
-        "height": 0,\
-        "passthru": true,\
-        "topic": "bike2",\
-        "format": "\{\{value\}\}",\
-        "min": 0,\
-        "max": 10,\
-        "step": 1,\
-        "x": 150,\
-        "y": 600,\
-        "wires": [\
-            [\
-                "953a8bad.91abe"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "1646308f.194eff",\
-        "type": "debug",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "active": false,\
-        "console": "false",\
-        "complete": "payload",\
-        "x": 629,\
-        "y": 403,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "72477abd.dda28c",\
-        "type": "inject",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "topic": "bike1",\
-        "payload": "2",\
-        "payloadType": "num",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 150,\
-        "y": 420,\
-        "wires": [\
-            [\
-                "953a8bad.91abe"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "d27b7a85.81432",\
-        "type": "inject",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "topic": "bike2",\
-        "payload": "4",\
-        "payloadType": "num",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 150,\
-        "y": 480,\
-        "wires": [\
-            [\
-                "953a8bad.91abe"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "b5704703.4a11c",\
-        "type": "ui_text",\
-        "z": "e14849d5.e938a",\
-        "group": "d742bc28.de205",\
-        "order": 9,\
-        "width": 0,\
-        "height": 0,\
-        "name": "",\
-        "label": "bike 3 pos",\
-        "format": "\{\{msg.payload\}\}",\
-        "layout": "row-spread",\
-        "x": 630,\
-        "y": 640,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "114dcd27.51b703",\
-        "type": "ui_numeric",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "label": "B3",\
-        "group": "d742bc28.de205",\
-        "order": 12,\
-        "width": 0,\
-        "height": 0,\
-        "passthru": true,\
-        "topic": "bike3",\
-        "format": "\{\{value\}\}",\
-        "min": 0,\
-        "max": 10,\
-        "step": 1,\
-        "x": 150,\
-        "y": 660,\
-        "wires": [\
-            [\
-                "953a8bad.91abe"\
-            ]\
-        ]\
-    \},\
-    \{\
         "id": "cae474e0.25172",\
         "type": "inject",\
         "z": "ac191645.5b409",\
@@ -852,115 +624,6 @@
         "y": 319,\
         "wires": [\
             []\
-        ]\
-    \},\
-    \{\
-        "id": "82388e12.d23c4",\
-        "type": "function",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "func": "var m = msg.payload;\\nvar t = msg.topic;\\n\\nvar msg1 = \{ payload:\\"1\\" \};\\nvar msg2 = \{ payload: 2\};\\nvar msg3 = \{ payload: \\"33\\"\}\\n\\nif(t == \\"bike1\\" )\{\\n\\nreturn [msg,null,null ];\\n\}\\nelse if (t == \\"bike2\\")\{\\n return [null,msg,null];   \\n\}\\nelse \\n return[ null, null, msg];",\
-        "outputs": "3",\
-        "noerr": 0,\
-        "x": 392,\
-        "y": 833,\
-        "wires": [\
-            [],\
-            [],\
-            []\
-        ],\
-        "inputLabels": [\
-            "B1"\
-        ],\
-        "outputLabels": [\
-            "B2",\
-            "",\
-            ""\
-        ]\
-    \},\
-    \{\
-        "id": "d4419754.94d2",\
-        "type": "inject",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "topic": "b1",\
-        "payload": "12",\
-        "payloadType": "num",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 198,\
-        "y": 828,\
-        "wires": [\
-            [\
-                "4a838c52.d8385c"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "f0fc1ed5.96f9c",\
-        "type": "inject",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "topic": "b2",\
-        "payload": "2",\
-        "payloadType": "num",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 201,\
-        "y": 910,\
-        "wires": [\
-            [\
-                "4a838c52.d8385c"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "4a838c52.d8385c",\
-        "type": "function",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "func": "t = msg.topic;\\n\\nvar b1v = 0;\\nvar b2v = 0;\\n\\nvar msgErro= \{payload: \\"error\\"\}\\n\\nif(t == \\"b1\\")\{\\n    b1v = msg;\\n    //return b1v;\\n\}\\nelse if( t == \\"b2\\")\{\\n    b2v = msg.toString;\\n    //return msg;\\n\}\\nelse\\n    return msgErro;\\n    \\nif(b1V >>  b2v)\\n    return b1v;\\nelse \\n    return b2v;",\
-        "outputs": 1,\
-        "noerr": 0,\
-        "x": 394,\
-        "y": 915,\
-        "wires": [\
-            [\
-                "c7b5c4ac.b5ff1"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "c7b5c4ac.b5ff1",\
-        "type": "debug",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "active": false,\
-        "console": "false",\
-        "complete": "payload",\
-        "x": 599,\
-        "y": 863,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "93bd6c29.821078",\
-        "type": "inject",\
-        "z": "e14849d5.e938a",\
-        "name": "",\
-        "topic": "b3",\
-        "payload": "5",\
-        "payloadType": "num",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 197,\
-        "y": 993,\
-        "wires": [\
-            [\
-                "4a838c52.d8385c"\
-            ]\
         ]\
     \},\
     \{\
@@ -1258,20 +921,22 @@
         "type": "ui_slider",\
         "z": "14dc65d6.e1936a",\
         "name": "",\
-        "label": "slider",\
+        "label": "bike 3 Wh",\
         "group": "9b2dd94a.042cc8",\
-        "order": 0,\
+        "order": 3,\
         "width": 0,\
         "height": 0,\
         "passthru": true,\
-        "topic": "",\
+        "topic": "whS",\
         "min": 0,\
         "max": "100",\
         "step": 1,\
-        "x": 113,\
-        "y": 193,\
+        "x": 114,\
+        "y": 304,\
         "wires": [\
-            []\
+            [\
+                "5945be40.c7bf58"\
+            ]\
         ]\
     \},\
     \{\
@@ -1283,8 +948,8 @@
         "qos": "",\
         "retain": "",\
         "broker": "c26aaba8.df44d8",\
-        "x": 412,\
-        "y": 303,\
+        "x": 653,\
+        "y": 346,\
         "wires": []\
     \},\
     \{\
@@ -1292,20 +957,22 @@
         "type": "ui_slider",\
         "z": "14dc65d6.e1936a",\
         "name": "",\
-        "label": "slider",\
+        "label": "bike 1 Wh",\
         "group": "9b2dd94a.042cc8",\
-        "order": 0,\
+        "order": 1,\
         "width": 0,\
         "height": 0,\
         "passthru": true,\
-        "topic": "",\
+        "topic": "whS",\
         "min": 0,\
-        "max": "100",\
+        "max": "300",\
         "step": 1,\
-        "x": 109,\
-        "y": 499,\
+        "x": 130,\
+        "y": 54,\
         "wires": [\
-            []\
+            [\
+                "e907cb76.c73118"\
+            ]\
         ]\
     \},\
     \{\
@@ -1514,7 +1181,7 @@
         "type": "function",\
         "z": "372e66df.e3fb7a",\
         "name": "get_bike_1_data_obj",\
-        "func": "\\n\\n\\n\\nvar b1 = \\"bike_\\";\\nvar bn = context.get('bike_n_1')|| 1;\\nvar b2 = \\"_data\\";\\nvar b3 = \\"_Wh\\";\\n\\nif (msg.topic == \\"bike_n\\")\{\\n     bn = msg.payload ;\\n     context.set('bike_n_1',bn);\\n     node.error(bn);\\n\}\\n\\nvar bike = b1 + bn+ b2;\\nvar bike_data_obj = global.get(bike);\\nvar bike_Wh_name = b1+bn+ b3;\\n\\n\\ncontext.set( bike_Wh_name , bike_data_obj.wh );\\n\\n\\n\\nvar msgW = \{ payload: bike_data_obj.w \};\\nvar msgWh = \{ payload: bike_data_obj.wh \};\\nvar msgPos = \{payload: \\"1\\"\};\\n//msg.payload = bike_data_obj.wh;\\n\\nreturn [msgW, msgWh, msgPos];\\n\\n",\
+        "func": "\\nvar b1 = \\"bike_\\";\\nvar bn = context.get('bike_n_1')|| 1;\\nvar b2 = \\"_data\\";\\nvar b3 = \\"_Wh\\";\\nvar bp = \\"_pos\\";\\n\\n//set bike number\\nif (msg.topic == \\"bike_n\\")\{\\n     bn = msg.payload ;\\n     context.set('bike_n_1',bn);\\n     node.error(bn);\\n\}\\n\\n// get bike number obj\\nvar bike = b1 + bn+ b2;\\nvar bike_data_obj = global.get(bike);\\n\\n// get bike Wh\\nvar bike_Wh_name = b1+bn+ b3;\\ncontext.set( bike_Wh_name , bike_data_obj.wh );\\n\\n// get bike pos\\nvar bike_pos_name = b1 + bn + bp;\\nvar bike_pos = global.get(bike_pos_name);\\n\\n\\nvar msgW = \{ payload: bike_data_obj.w \};\\nvar msgWh = \{ payload: bike_data_obj.wh \};\\nvar msgPos = \{payload: bike_pos\};\\n\\nreturn [msgW, msgWh, msgPos];\\n\\n",\
         "outputs": "3",\
         "noerr": 0,\
         "x": 391.5,\
@@ -1535,7 +1202,8 @@
         "outputLabels": [\
             "W",\
             "Wh",\
-            "POS"\
+            "POS",\
+            ""\
         ]\
     \},\
     \{\
@@ -2464,8 +2132,8 @@
         ],\
         "seg1": "",\
         "seg2": "",\
-        "x": 642,\
-        "y": 367,\
+        "x": 647,\
+        "y": 369,\
         "wires": []\
     \},\
     \{\
@@ -2511,7 +2179,7 @@
         "nodata": "",\
         "dot": false,\
         "ymin": "",\
-        "ymax": "100",\
+        "ymax": "800",\
         "removeOlder": "1",\
         "removeOlderPoints": "",\
         "removeOlderUnit": "3600",\
@@ -2567,7 +2235,7 @@
         "type": "function",\
         "z": "372e66df.e3fb7a",\
         "name": "get_bike_2_data_obj",\
-        "func": "\\n\\n\\n\\nvar b1 = \\"bike_\\";\\nvar bn = context.get('bike_n_2')|| 2;\\nvar b2 = \\"_data\\";\\nvar b3 = \\"_Wh\\";\\n\\n\\nif (msg.topic == \\"bike_n\\")\{\\n     bn = msg.payload ;\\n     context.set('bike_n_2',bn);\\n     node.error(bn);\\n\}\\n\\nvar bike = b1 + bn+ b2;\\nvar bike_data_obj = global.get(bike);\\nvar bike_Wh_name = b1+bn+ b3;\\ncontext.set( bike_Wh_name , bike_data_obj.wh );\\n\\n\\nvar msgW = \{ payload: bike_data_obj.w \};\\nvar msgWh = \{ payload: bike_data_obj.wh \};\\nvar msgPos = \{payload: \\"2\\"\};\\n//msg.payload = bike_data_obj.wh;\\n\\nreturn [msgW, msgWh, msgPos];\\n\\n",\
+        "func": "\\nvar b1 = \\"bike_\\";\\nvar bn = context.get('bike_n_2')|| 2;\\nvar b2 = \\"_data\\";\\nvar b3 = \\"_Wh\\";\\nvar bp = \\"_pos\\";\\n\\n//set bike number\\nif (msg.topic == \\"bike_n\\")\{\\n     bn = msg.payload ;\\n     context.set('bike_n_1',bn);\\n     node.error(bn);\\n\}\\n\\n// get bike number obj\\nvar bike = b1 + bn+ b2;\\nvar bike_data_obj = global.get(bike);\\n\\n// get bike Wh\\nvar bike_Wh_name = b1+ bn+ b3;\\ncontext.set( bike_Wh_name , bike_data_obj.wh );\\n\\n// get bike pos\\nvar bike_pos_name = b1 + bn + bp;\\nvar bike_pos = global.get(bike_pos_name);\\n\\n\\nvar msgW = \{ payload: bike_data_obj.w \};\\nvar msgWh = \{ payload: bike_data_obj.wh \};\\nvar msgPos = \{payload: bike_pos\};\\n\\nreturn [msgW, msgWh, msgPos];\\n\\n",\
         "outputs": "3",\
         "noerr": 0,\
         "x": 398.5,\
@@ -2732,7 +2400,7 @@
         "nodata": "",\
         "dot": false,\
         "ymin": "",\
-        "ymax": "100",\
+        "ymax": "800",\
         "removeOlder": "1",\
         "removeOlderPoints": "",\
         "removeOlderUnit": "3600",\
@@ -2788,7 +2456,7 @@
         "type": "function",\
         "z": "372e66df.e3fb7a",\
         "name": "get_bike_3_data_obj",\
-        "func": "\\n\\n\\n\\nvar b1 = \\"bike_\\";\\nvar bn = context.get('bike_n_3')|| 3;\\nvar b2 = \\"_data\\";\\nvar b3 = \\"_Wh\\";\\n\\nif (msg.topic == \\"bike_n\\")\{\\n     bn = msg.payload ;\\n     context.set('bike_n_3',bn);\\n     node.error(bn);\\n\}\\n\\nvar bike = b1 + bn+ b2;\\nvar bike_data_obj = global.get(bike);\\nvar bike_Wh_name = b1+bn+ b3;\\nvar wh = bike_data_obj.w;\\ncontext.set( bike_Wh_name , wh );\\n\\n\\nvar msgW = \{ payload: bike_data_obj.w \};\\nvar msgWh = \{ payload: bike_data_obj.wh \};\\nvar msgPos = \{payload: \\"3\\"\};\\n//msg.payload = bike_data_obj.wh;\\n\\nreturn [msgW, msgWh, msgPos];\\n\\n",\
+        "func": "\\nvar b1 = \\"bike_\\";\\nvar bn = context.get('bike_n_3')|| 3;\\nvar b2 = \\"_data\\";\\nvar b3 = \\"_Wh\\";\\nvar bp = \\"_pos\\";\\n\\n//set bike number\\nif (msg.topic == \\"bike_n\\")\{\\n     bn = msg.payload ;\\n     context.set('bike_n_1',bn);\\n     node.error(bn);\\n\}\\n\\n// get bike number obj\\nvar bike = b1 + bn+ b2;\\nvar bike_data_obj = global.get(bike);\\n\\n// get bike Wh\\nvar bike_Wh_name = b1+bn+ b3;\\ncontext.set( bike_Wh_name , bike_data_obj.wh );\\n\\n// get bike pos\\nvar bike_pos_name = b1 + bn + bp;\\nvar bike_pos = global.get(bike_pos_name);\\n\\n\\nvar msgW = \{ payload: bike_data_obj.w \};\\nvar msgWh = \{ payload: bike_data_obj.wh \};\\nvar msgPos = \{payload: bike_pos\};\\n\\nreturn [msgW, msgWh, msgPos];\\n\\n",\
         "outputs": "3",\
         "noerr": 0,\
         "x": 401,\
@@ -2952,7 +2620,7 @@
         "nodata": "",\
         "dot": false,\
         "ymin": "",\
-        "ymax": "100",\
+        "ymax": "800",\
         "removeOlder": "1",\
         "removeOlderPoints": "",\
         "removeOlderUnit": "3600",\
@@ -3023,8 +2691,8 @@
         "func": "\\nmsg.topic = \\"Clear\\";\\nmsg.payload = [];\\nreturn msg;",\
         "outputs": 1,\
         "noerr": 0,\
-        "x": 637,\
-        "y": 241,\
+        "x": 642,\
+        "y": 222,\
         "wires": [\
             [\
                 "d577b4d2.8c30a8",\
@@ -3553,174 +3221,6 @@
         "wires": []\
     \},\
     \{\
-        "id": "9097c745.b1ad08",\
-        "type": "function",\
-        "z": "5426cdb5.17c67c",\
-        "name": "CountDown Timer",\
-        "func": "\\nvar m = context.get('m') || 0;\\nvar s = context.get('s') || 0;\\n\\nvar secTmp ;\\nvar minTmp;\\n\\nvar msgCOM = 0; //message for the bike start stop reset Wh value,\\n\\nvar value  = context.get('value') || 1000;\\n\\n\\nif (msg.topic == \\"s\\")\\n    \{\\n      s = msg.payload *1000 ;\\n      context.set('s',s);  \\n    \}\\n\\nelse if (msg.topic == \\"m\\")\\n    \{\\n      m = msg.payload* 60000;\\n      context.set('m',m);  \\n    \}\\n\\nelse if (msg.topic == \\"reset\\")\\n    \{\\n        // stop\\n            \\n    var timerstop  = context.get('timer');\\n    clearTimeout(timerstop);\\n    \\n    var countdownstop  = context.get('countdown');\\n    clearInterval(countdownstop);\\n    \\n        ///\\n      \\n      var msgR = \{payload:  \\"00:00\\"\};\\n       msgCOM = \{payload: \\"3\\"\}\\n    node.send([msgR,msgR,msgCOM]);\\n        \\n        \\n    \}\\n\\nelse if (msg.topic == \\"start\\")\\n    \{\\n        // stop\\n            \\n    var timerstop  = context.get('timer');\\n    clearTimeout(timerstop);\\n    \\n    var countdownstop  = context.get('countdown');\\n    clearInterval(countdownstop);\\n    \\n        \\n        ///\\n   \\n        \\n    value = m + s;\\n    //context.set('value',value); \\n    \\n    var timer = setTimeout(function()\{\\n        msg.payload = \\"off\\";\\n         msgCOM = \{payload: \\"0\\"\}\\n        node.send([msg,\{ payload: \\"Ende\\" \},msgCOM]);\\n        var countdownstop  = context.get('countdown');\\n        clearInterval(countdownstop)\},\\n        value);\\n    \\n    context.set('timer',timer); \\n    \\n    var count = value /1000 ;\\n    //count = count -1 ;\\n    msg.payload=count;\\n    \\n         secTmp = Math.floor(count % (60) );\\n         minTmp = Math.floor(count / 60 );//Math.floor((count % (60)) /60 ) ;\\n    \\n        var msgO = \{payload:  minTmp +\\":\\"+ secTmp \};\\n        msgCOM = \{payload: \\"1\\"\}\\n    node.send([msgO,msgO,msgCOM]);\\n    \\n    \\n    var countdown = setInterval(function() \{\\n        count=count-1;\\n        msg.payload = count; \\n        \\n        //var minTmp = Math.floor((count % (60)) /60 ) ;\\n         secTmp = Math.floor(count % (60) );\\n         minTmp = Math.floor(count / 60 );//Math.floor((count % (60)) /60 ) ;\\n\\n       \\n        \\n        \\n        var msgP = \{payload:  minTmp +\\":\\"+ secTmp \};\\n         \\n        node.send([msgP,msgP]) \}, 1000);\\n        \\n    context.set('countdown',countdown);\\n    \\n    \}\\n\\n\\n\\n\\nelse if (msg.topic == \\"stop\\")\\n    \{\\n     \\n    var timerstop  = context.get('timer');\\n    clearTimeout(timerstop);\\n    \\n    var countdownstop  = context.get('countdown');\\n    clearInterval(countdownstop);\\n    \\n     msgCOM = \{payload: \\"0\\"\};\\n     node.send([false,false,msgCOM]);\\n    \\n    \}\\n\\n\\n\\n",\
-        "outputs": "3",\
-        "noerr": 0,\
-        "x": 435,\
-        "y": 1292,\
-        "wires": [\
-            [\
-                "deb30d16.4ab9a",\
-                "ad461805.3cb78"\
-            ],\
-            [\
-                "af693abe.c956d8",\
-                "55677ff0.bd9728"\
-            ],\
-            [\
-                "fd1b80be.9c8c68"\
-            ]\
-        ],\
-        "outputLabels": [\
-            "",\
-            "",\
-            "mqtt"\
-        ]\
-    \},\
-    \{\
-        "id": "72c794e3.0c43f4",\
-        "type": "ui_button",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "group": "53b41525.5e5e8c",\
-        "order": 3,\
-        "width": "3",\
-        "height": "1",\
-        "passthru": false,\
-        "label": "Start",\
-        "color": "",\
-        "bgcolor": "",\
-        "icon": "",\
-        "payload": "",\
-        "payloadType": "str",\
-        "topic": "start",\
-        "x": 128,\
-        "y": 1280,\
-        "wires": [\
-            [\
-                "9097c745.b1ad08"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "8117355d.b87468",\
-        "type": "ui_numeric",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "label": "Sleep Timer in Sec",\
-        "group": "53b41525.5e5e8c",\
-        "order": 2,\
-        "width": "0",\
-        "height": "0",\
-        "passthru": true,\
-        "topic": "s",\
-        "format": "\{\{value\}\}",\
-        "min": "0",\
-        "max": "300",\
-        "step": 1,\
-        "x": 97,\
-        "y": 1360,\
-        "wires": [\
-            [\
-                "9097c745.b1ad08"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "7e7e98ed.80ea48",\
-        "type": "ui_button",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "group": "53b41525.5e5e8c",\
-        "order": 4,\
-        "width": "3",\
-        "height": "1",\
-        "passthru": false,\
-        "label": "Stop",\
-        "color": "",\
-        "bgcolor": "",\
-        "icon": "",\
-        "payload": "",\
-        "payloadType": "str",\
-        "topic": "stop",\
-        "x": 128,\
-        "y": 1320,\
-        "wires": [\
-            [\
-                "9097c745.b1ad08"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "af693abe.c956d8",\
-        "type": "ui_text",\
-        "z": "5426cdb5.17c67c",\
-        "group": "53b41525.5e5e8c",\
-        "order": 5,\
-        "width": 0,\
-        "height": 0,\
-        "name": "",\
-        "label": "COUNT DOWN:",\
-        "format": "\{\{msg.payload\}\} Sec",\
-        "layout": "row-spread",\
-        "x": 825,\
-        "y": 1339,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "deb30d16.4ab9a",\
-        "type": "debug",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "active": false,\
-        "console": "false",\
-        "complete": "false",\
-        "x": 820,\
-        "y": 1268,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "acc232be.9aa198",\
-        "type": "ui_numeric",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "label": "Sleep Timer in min",\
-        "group": "53b41525.5e5e8c",\
-        "order": 2,\
-        "width": "0",\
-        "height": "0",\
-        "passthru": true,\
-        "topic": "m",\
-        "format": "\{\{value\}\}",\
-        "min": "0",\
-        "max": "300",\
-        "step": 1,\
-        "x": 95,\
-        "y": 1411,\
-        "wires": [\
-            [\
-                "9097c745.b1ad08"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "ad461805.3cb78",\
-        "type": "mqtt out",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "topic": "bikes/timer",\
-        "qos": "0",\
-        "retain": "false",\
-        "broker": "c26aaba8.df44d8",\
-        "x": 815,\
-        "y": 1179,\
-        "wires": []\
-    \},\
-    \{\
         "id": "d9debfde.b602c8",\
         "type": "comment",\
         "z": "5426cdb5.17c67c",\
@@ -3738,63 +3238,6 @@
         "info": "all bike timer topicic are a same in one network.\\n\\n\\n\\n",\
         "x": 798,\
         "y": 1133,\
-        "wires": []\
-    \},\
-    \{\
-        "id": "55677ff0.bd9728",\
-        "type": "ui_template",\
-        "z": "5426cdb5.17c67c",\
-        "group": "31bc35cb.69f60a",\
-        "name": "",\
-        "order": 0,\
-        "width": 0,\
-        "height": 0,\
-        "format": "\\n<h3>\\n<div  ng-bind-html=\\"msg.payload\\"></div>\\n</h3>",\
-        "storeOutMessages": true,\
-        "fwdInMessages": true,\
-        "templateScope": "local",\
-        "x": 806,\
-        "y": 1397,\
-        "wires": [\
-            []\
-        ]\
-    \},\
-    \{\
-        "id": "78f815b0.1f55d4",\
-        "type": "ui_button",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "group": "53b41525.5e5e8c",\
-        "order": 3,\
-        "width": "3",\
-        "height": "1",\
-        "passthru": false,\
-        "label": "Reset",\
-        "color": "",\
-        "bgcolor": "",\
-        "icon": "",\
-        "payload": "",\
-        "payloadType": "str",\
-        "topic": "reset",\
-        "x": 127,\
-        "y": 1239,\
-        "wires": [\
-            [\
-                "9097c745.b1ad08"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "fd1b80be.9c8c68",\
-        "type": "mqtt out",\
-        "z": "5426cdb5.17c67c",\
-        "name": "",\
-        "topic": "bikes/com",\
-        "qos": "0",\
-        "retain": "false",\
-        "broker": "c26aaba8.df44d8",\
-        "x": 822,\
-        "y": 1472,\
         "wires": []\
     \},\
     \{\
@@ -3839,8 +3282,8 @@
         "name": "",\
         "active": false,\
         "console": "false",\
-        "complete": "true",\
-        "x": 641,\
+        "complete": "payload",\
+        "x": 661,\
         "y": 1251,\
         "wires": []\
     \},\
@@ -3855,44 +3298,6 @@
         "x": 662,\
         "y": 1298,\
         "wires": []\
-    \},\
-    \{\
-        "id": "1ae5cd2e.ffb613",\
-        "type": "inject",\
-        "z": "14dc65d6.e1936a",\
-        "name": "",\
-        "topic": "",\
-        "payload": "\{\\"wh\\":100,\\"w\\":639,\\"id\\":1,\\"V\\":12.1,\\"data\\":[48.75608,2.302038]\}",\
-        "payloadType": "json",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 123,\
-        "y": 288,\
-        "wires": [\
-            [\
-                "d20671df.9a5d7"\
-            ]\
-        ]\
-    \},\
-    \{\
-        "id": "dbacae7d.f8601",\
-        "type": "inject",\
-        "z": "14dc65d6.e1936a",\
-        "name": "2 ",\
-        "topic": "",\
-        "payload": "\{\\"wh\\":130,\\"w\\":639,\\"id\\":2,\\"V\\":12.1,\\"data\\":[48.75608,2.302038]\}",\
-        "payloadType": "json",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 119,\
-        "y": 370,\
-        "wires": [\
-            [\
-                "d20671df.9a5d7"\
-            ]\
-        ]\
     \},\
     \{\
         "id": "1307dead.383ff9",\
@@ -3911,38 +3316,21 @@
         "type": "ui_slider",\
         "z": "14dc65d6.e1936a",\
         "name": "",\
-        "label": "slider",\
+        "label": "bike 2 Wh",\
         "group": "9b2dd94a.042cc8",\
-        "order": 0,\
+        "order": 2,\
         "width": 0,\
         "height": 0,\
         "passthru": true,\
-        "topic": "",\
+        "topic": "whS",\
         "min": 0,\
-        "max": "100",\
+        "max": "300",\
         "step": 1,\
-        "x": 106,\
-        "y": 556,\
-        "wires": [\
-            []\
-        ]\
-    \},\
-    \{\
-        "id": "d65173a1.3b45f",\
-        "type": "inject",\
-        "z": "14dc65d6.e1936a",\
-        "name": "3",\
-        "topic": "",\
-        "payload": "\{\\"wh\\":150,\\"w\\":639,\\"id\\":3,\\"V\\":12.1,\\"data\\":[48.75608,2.302038]\}",\
-        "payloadType": "json",\
-        "repeat": "",\
-        "crontab": "",\
-        "once": false,\
-        "x": 124,\
-        "y": 427,\
+        "x": 111,\
+        "y": 191,\
         "wires": [\
             [\
-                "d20671df.9a5d7"\
+                "f60e6bb6.f2e16"\
             ]\
         ]\
     \},\
@@ -3951,10 +3339,10 @@
         "type": "debug",\
         "z": "372e66df.e3fb7a",\
         "name": "",\
-        "active": true,\
+        "active": false,\
         "console": "false",\
-        "complete": "payload",\
-        "x": 665,\
+        "complete": "true",\
+        "x": 645,\
         "y": 1484,\
         "wires": []\
     \},\
@@ -3962,16 +3350,530 @@
         "id": "a4622dcb.5e3ea8",\
         "type": "function",\
         "z": "372e66df.e3fb7a",\
-        "name": "",\
-        "func": "//var array2 = msg.payload;\\n\\nvar b1 = [15 , 1];\\nvar b2 = [34 , 2];\\nvar b3 = [13  , 3];\\n\\n\\nvar array2 = [b1, b2, b3]; //test array\\nvar array = array2.sort();\\n\\n\\nmsgA = \{payload: array[0][1] +  \\" // \\" + array[1][1]+  \\" // \\" + array[2][1]\};\\n\\nreturn msgA;\\n",\
-        "outputs": 1,\
+        "name": "POS",\
+        "func": "//var array2 = msg.payload;\\n\\nvar bike1 = global.get('bike_1_data').wh || 0;\\nvar bike2 = global.get('bike_2_data').wh || 0;\\nvar bike3 = global.get('bike_3_data').wh || 0;\\n\\nvar b1 = [bike1 , 1];\\nvar b2 = [bike2 , 2];\\nvar b3 = [bike3 , 3];\\n\\n\\nvar myarray=[b1[0], b2[0], b3[0]];\\n\\nmyarray.sort(function(a,b)\{ //Array now becomes [41, 25, 8, 7]\\n    return b - a;\\n\});\\n\\n\\nvar a = myarray.indexOf(b1[0], 0);\\nvar b = myarray.indexOf(b2[0], 0);\\nvar c = myarray.indexOf(b3[0], 0);\\n\\nvar array2 = [a+1, b+1, c+1];\\n//var array = array2.sort();\\nvar array = myarray;\\n\\n\\n/// store bike position back in context \\n\\nglobal.set('bike_1_pos', array2[0]);\\nglobal.set('bike_2_pos', array2[1]);\\nglobal.set('bike_3_pos', array2[2]);\\n\\n\\n\\nmsgA =\{payload: array[0] +  \\" // \\" + array[1]+  \\" // \\" + array[2] \};\\n//msgB =  \{payload: array[0][0] +  \\" // \\" + array[1][0] +  \\" // \\" + array[2][0]\}; \\nmsgB =  \{payload: \\"b1P: \\" +  array2[0] +\\" b2P: \\" +  array2[1] + \\" b3P: \\" + array2[2]\};\\n\\nvar msgP = \{ b1P:  array2[0] , b2P:  array2[1], b3P:  array2[2]\};\\n    //msgP = \{ b2P:  array2[1] \};\\n    //msgP = \{ b3P:  array2[2] \};\\n    \\nreturn [msgA, msgB , msgP];\\n",\
+        "outputs": "3",\
         "noerr": 0,\
-        "x": 383,\
-        "y": 1474,\
+        "x": 369,\
+        "y": 1484,\
         "wires": [\
+            [],\
             [\
                 "fcc11d72.30a5e8"\
+            ],\
+            [\
+                "e5cc2a2c.9f373",\
+                "c94478d4.9b879",\
+                "bbecfcd1.ea6ed8",\
+                "9b043954.9c7d28",\
+                "2e345d01.201d02",\
+                "b95f5df2.58ba38"\
             ]\
         ]\
+    \},\
+    \{\
+        "id": "3607c981.5ad2e6",\
+        "type": "function",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "CountDown Timer",\
+        "func": "\\nvar m = context.get('m') || 0;\\nvar s = context.get('s') || 0;\\n\\nvar secTmp ;\\nvar minTmp;\\n\\nvar msgCOM = 0; //message for the bike start stop reset Wh value,\\n\\nvar value  = context.get('value') || 1000;\\n\\n\\nif (msg.topic == \\"s\\")\\n    \{\\n      s = msg.payload *1000 ;\\n      context.set('s',s);  \\n    \}\\n\\nelse if (msg.topic == \\"m\\")\\n    \{\\n      m = msg.payload* 60000;\\n      context.set('m',m);  \\n    \}\\n\\nelse if (msg.topic == \\"reset\\")\\n    \{\\n        // stop\\n            \\n    var timerstop  = context.get('timer');\\n    clearTimeout(timerstop);\\n    \\n    var countdownstop  = context.get('countdown');\\n    clearInterval(countdownstop);\\n    \\n        ///\\n      \\n      var msgR = \{payload:  \\"00:00\\"\};\\n       msgCOM = \{payload: \\"3\\"\}\\n    node.send([msgR,msgR,msgCOM]);\\n        \\n        \\n    \}\\n\\nelse if (msg.topic == \\"start\\")\\n    \{\\n        // stop\\n            \\n    var timerstop  = context.get('timer');\\n    clearTimeout(timerstop);\\n    \\n    var countdownstop  = context.get('countdown');\\n    clearInterval(countdownstop);\\n    \\n        \\n        ///\\n   \\n        \\n    value = m + s;\\n    //context.set('value',value); \\n    \\n    var timer = setTimeout(function()\{\\n        msg.payload = \\"off\\";\\n         msgCOM = \{payload: \\"0\\"\}\\n        node.send([msg,\{ payload: \\"End\\" \},msgCOM]);\\n        var countdownstop  = context.get('countdown');\\n        clearInterval(countdownstop)\},\\n        value);\\n    \\n    context.set('timer',timer); \\n    \\n    var count = value /1000 ;\\n    //count = count -1 ;\\n    msg.payload=count;\\n    \\n         secTmp = Math.floor(count % (60) );\\n         minTmp = Math.floor(count / 60 );//Math.floor((count % (60)) /60 ) ;\\n    \\n        var msgO = \{payload:  minTmp +\\":\\"+ secTmp \};\\n        msgCOM = \{payload: \\"1\\"\}\\n    node.send([msgO,msgO,msgCOM]);\\n    \\n    \\n    var countdown = setInterval(function() \{\\n        count=count-1;\\n        msg.payload = count; \\n        \\n        //var minTmp = Math.floor((count % (60)) /60 ) ;\\n         secTmp = Math.floor(count % (60) );\\n         minTmp = Math.floor(count / 60 );//Math.floor((count % (60)) /60 ) ;\\n\\n       \\n        \\n        \\n        var msgP = \{payload:  minTmp +\\":\\"+ secTmp \};\\n         \\n        node.send([msgP,msgP]) \}, 1000);\\n        \\n    context.set('countdown',countdown);\\n    \\n    \}\\n\\n\\n\\n\\nelse if (msg.topic == \\"stop\\")\\n    \{\\n     \\n    var timerstop  = context.get('timer');\\n    clearTimeout(timerstop);\\n    \\n    var countdownstop  = context.get('countdown');\\n    clearInterval(countdownstop);\\n    \\n     msgCOM = \{payload: \\"0\\"\};\\n     node.send([false,false,msgCOM]);\\n    \\n    \}\\n\\n\\n\\n",\
+        "outputs": "3",\
+        "noerr": 0,\
+        "x": 469,\
+        "y": 170,\
+        "wires": [\
+            [\
+                "cc05bc64.c32038",\
+                "cf113517.73cb4"\
+            ],\
+            [\
+                "a8f0f86d.392fb8",\
+                "f60d8e91.a3bdb"\
+            ],\
+            [\
+                "e287b715.7ba048"\
+            ]\
+        ],\
+        "outputLabels": [\
+            "",\
+            "",\
+            "mqtt"\
+        ]\
+    \},\
+    \{\
+        "id": "70984205.b6cd04",\
+        "type": "ui_button",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "group": "53b41525.5e5e8c",\
+        "order": 3,\
+        "width": "3",\
+        "height": "1",\
+        "passthru": false,\
+        "label": "Start",\
+        "color": "",\
+        "bgcolor": "",\
+        "icon": "",\
+        "payload": "",\
+        "payloadType": "str",\
+        "topic": "start",\
+        "x": 162,\
+        "y": 158,\
+        "wires": [\
+            [\
+                "3607c981.5ad2e6"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "fa7e3b8a.960d28",\
+        "type": "ui_numeric",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "label": "Sleep Timer in Sec",\
+        "group": "53b41525.5e5e8c",\
+        "order": 2,\
+        "width": "0",\
+        "height": "0",\
+        "passthru": true,\
+        "topic": "s",\
+        "format": "\{\{value\}\}",\
+        "min": "0",\
+        "max": "300",\
+        "step": 1,\
+        "x": 131,\
+        "y": 238,\
+        "wires": [\
+            [\
+                "3607c981.5ad2e6"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "86641e8e.c4dc7",\
+        "type": "ui_button",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "group": "53b41525.5e5e8c",\
+        "order": 4,\
+        "width": "3",\
+        "height": "1",\
+        "passthru": false,\
+        "label": "Stop",\
+        "color": "",\
+        "bgcolor": "",\
+        "icon": "",\
+        "payload": "",\
+        "payloadType": "str",\
+        "topic": "stop",\
+        "x": 162,\
+        "y": 198,\
+        "wires": [\
+            [\
+                "3607c981.5ad2e6"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "a8f0f86d.392fb8",\
+        "type": "ui_text",\
+        "z": "d1fddea9.b6ee8",\
+        "group": "53b41525.5e5e8c",\
+        "order": 5,\
+        "width": 0,\
+        "height": 0,\
+        "name": "",\
+        "label": "COUNT DOWN:",\
+        "format": "\{\{msg.payload\}\} Sec",\
+        "layout": "row-spread",\
+        "x": 859,\
+        "y": 217,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "cc05bc64.c32038",\
+        "type": "debug",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "active": false,\
+        "console": "false",\
+        "complete": "false",\
+        "x": 854,\
+        "y": 146,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "d8f6f000.c611f8",\
+        "type": "ui_numeric",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "label": "Sleep Timer in min",\
+        "group": "53b41525.5e5e8c",\
+        "order": 2,\
+        "width": "0",\
+        "height": "0",\
+        "passthru": true,\
+        "topic": "m",\
+        "format": "\{\{value\}\}",\
+        "min": "0",\
+        "max": "300",\
+        "step": 1,\
+        "x": 129,\
+        "y": 289,\
+        "wires": [\
+            [\
+                "3607c981.5ad2e6"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "cf113517.73cb4",\
+        "type": "mqtt out",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "topic": "bikes/timer",\
+        "qos": "0",\
+        "retain": "false",\
+        "broker": "c26aaba8.df44d8",\
+        "x": 849,\
+        "y": 57,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "f60d8e91.a3bdb",\
+        "type": "ui_template",\
+        "z": "d1fddea9.b6ee8",\
+        "group": "31bc35cb.69f60a",\
+        "name": "",\
+        "order": 0,\
+        "width": 0,\
+        "height": 0,\
+        "format": "\\n<h3>\\n<div  ng-bind-html=\\"msg.payload\\"></div>\\n</h3>",\
+        "storeOutMessages": true,\
+        "fwdInMessages": true,\
+        "templateScope": "local",\
+        "x": 840,\
+        "y": 275,\
+        "wires": [\
+            []\
+        ]\
+    \},\
+    \{\
+        "id": "1613cd14.84de2b",\
+        "type": "ui_button",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "group": "53b41525.5e5e8c",\
+        "order": 3,\
+        "width": "3",\
+        "height": "1",\
+        "passthru": false,\
+        "label": "Reset",\
+        "color": "",\
+        "bgcolor": "",\
+        "icon": "",\
+        "payload": "",\
+        "payloadType": "str",\
+        "topic": "reset",\
+        "x": 161,\
+        "y": 117,\
+        "wires": [\
+            [\
+                "3607c981.5ad2e6"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "e287b715.7ba048",\
+        "type": "mqtt out",\
+        "z": "d1fddea9.b6ee8",\
+        "name": "",\
+        "topic": "bikes/com",\
+        "qos": "0",\
+        "retain": "false",\
+        "broker": "c26aaba8.df44d8",\
+        "x": 856,\
+        "y": 350,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "e907cb76.c73118",\
+        "type": "function",\
+        "z": "14dc65d6.e1936a",\
+        "name": "bike 1 simulator",\
+        "func": "var tmpJ= \{\\"wh\\":100,\\"w\\":639,\\"id\\":1,\\"V\\":12.1,\\"data\\":[48.75608,2.302038]\}\\n\\nif (msg.topic == \\"whS\\")\\ntmpJ.wh = msg.payload;\\n\\n\\nvar msgJ =  \{payload: tmpJ \};\\n\\n\\nreturn msgJ;",\
+        "outputs": 1,\
+        "noerr": 0,\
+        "x": 368,\
+        "y": 136,\
+        "wires": [\
+            [\
+                "d20671df.9a5d7",\
+                "5e1dad4f.d2bb6c"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "5e1dad4f.d2bb6c",\
+        "type": "debug",\
+        "z": "14dc65d6.e1936a",\
+        "name": "",\
+        "active": false,\
+        "console": "false",\
+        "complete": "payload",\
+        "x": 651,\
+        "y": 138,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "f72e2528.1e9a2",\
+        "type": "inject",\
+        "z": "14dc65d6.e1936a",\
+        "name": "",\
+        "topic": "",\
+        "payload": "",\
+        "payloadType": "date",\
+        "repeat": "",\
+        "crontab": "",\
+        "once": false,\
+        "x": 119,\
+        "y": 134,\
+        "wires": [\
+            [\
+                "e907cb76.c73118"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "f60e6bb6.f2e16",\
+        "type": "function",\
+        "z": "14dc65d6.e1936a",\
+        "name": "bike 2 simulator",\
+        "func": "var tmpJ= \{\\"wh\\":100,\\"w\\":639,\\"id\\":2,\\"V\\":12.1,\\"data\\":[48.75608,2.302038]\}\\n\\nif (msg.topic == \\"whS\\")\\ntmpJ.wh = msg.payload;\\n\\n\\nvar msgJ =  \{payload: tmpJ \};\\n\\n\\nreturn msgJ;",\
+        "outputs": 1,\
+        "noerr": 0,\
+        "x": 367,\
+        "y": 241,\
+        "wires": [\
+            [\
+                "d20671df.9a5d7"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "f143b8e0.19a04",\
+        "type": "inject",\
+        "z": "14dc65d6.e1936a",\
+        "name": "",\
+        "topic": "",\
+        "payload": "",\
+        "payloadType": "date",\
+        "repeat": "",\
+        "crontab": "",\
+        "once": false,\
+        "x": 118,\
+        "y": 239,\
+        "wires": [\
+            [\
+                "f60e6bb6.f2e16"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "5945be40.c7bf58",\
+        "type": "function",\
+        "z": "14dc65d6.e1936a",\
+        "name": "bike 3 simulator",\
+        "func": "var tmpJ= \{\\"wh\\":100,\\"w\\":639,\\"id\\":3,\\"V\\":12.1,\\"data\\":[48.75608,2.302038]\}\\n\\nif (msg.topic == \\"whS\\")\\ntmpJ.wh = msg.payload;\\n\\n\\nvar msgJ =  \{payload: tmpJ \};\\n\\n\\nreturn msgJ;",\
+        "outputs": 1,\
+        "noerr": 0,\
+        "x": 362,\
+        "y": 354,\
+        "wires": [\
+            [\
+                "d20671df.9a5d7"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "97d49210.566cf",\
+        "type": "inject",\
+        "z": "14dc65d6.e1936a",\
+        "name": "",\
+        "topic": "",\
+        "payload": "",\
+        "payloadType": "date",\
+        "repeat": "",\
+        "crontab": "",\
+        "once": false,\
+        "x": 113,\
+        "y": 352,\
+        "wires": [\
+            [\
+                "5945be40.c7bf58"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "4c263cc9.582794",\
+        "type": "debug",\
+        "z": "372e66df.e3fb7a",\
+        "name": "",\
+        "active": true,\
+        "console": "false",\
+        "complete": "payload",\
+        "x": 876,\
+        "y": 1479,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "e5cc2a2c.9f373",\
+        "type": "ui_text",\
+        "z": "372e66df.e3fb7a",\
+        "group": "f6db4243.be0728",\
+        "order": 0,\
+        "width": 0,\
+        "height": 0,\
+        "name": "",\
+        "label": "Pos",\
+        "format": "\{\{msg.b1P\}\}",\
+        "layout": "row-spread",\
+        "x": 470,\
+        "y": 1658,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "c94478d4.9b879",\
+        "type": "ui_text",\
+        "z": "372e66df.e3fb7a",\
+        "group": "968d47ce.aa59e8",\
+        "order": 0,\
+        "width": 0,\
+        "height": 0,\
+        "name": "",\
+        "label": "Pos",\
+        "format": "\{\{msg.b2P\}\}",\
+        "layout": "row-spread",\
+        "x": 469,\
+        "y": 1698,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "bbecfcd1.ea6ed8",\
+        "type": "ui_text",\
+        "z": "372e66df.e3fb7a",\
+        "group": "ab467671.b9a7d8",\
+        "order": 0,\
+        "width": 0,\
+        "height": 0,\
+        "name": "",\
+        "label": "Pos",\
+        "format": "\{\{msg.b3P\}\}",\
+        "layout": "row-spread",\
+        "x": 469,\
+        "y": 1742,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "87397648.3503f8",\
+        "type": "mqtt out",\
+        "z": "372e66df.e3fb7a",\
+        "name": "",\
+        "topic": "bikes/bike1/pos",\
+        "qos": "",\
+        "retain": "",\
+        "broker": "c26aaba8.df44d8",\
+        "x": 892,\
+        "y": 1531,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "9b043954.9c7d28",\
+        "type": "function",\
+        "z": "372e66df.e3fb7a",\
+        "name": "reducer",\
+        "func": "var name = 'b1P';\\nvar last = context.get(name) || 0;\\n\\nvar now= msg.b1P.toString();\\n//var now= \{payload: msg.b1P\};\\n\\n\\n\\n\\nif (last != now) \{\\n    context.set(name, now);\\n    var msg1= \{payload: now\};\\n    //node.error(now);\\n//node.error(last);\\n    //node.error(last);\\n    return msg1;\\n\}\\n",\
+        "outputs": 1,\
+        "noerr": 0,\
+        "x": 665,\
+        "y": 1533,\
+        "wires": [\
+            [\
+                "4c263cc9.582794",\
+                "87397648.3503f8"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "9917ccd3.99c5c",\
+        "type": "reduce",\
+        "z": "372e66df.e3fb7a",\
+        "name": "",\
+        "topic": "",\
+        "reduceFunctionExpr": "",\
+        "reduceRight": false,\
+        "x": 386,\
+        "y": 1414,\
+        "wires": [\
+            []\
+        ]\
+    \},\
+    \{\
+        "id": "2e345d01.201d02",\
+        "type": "function",\
+        "z": "372e66df.e3fb7a",\
+        "name": "reducer",\
+        "func": "var name = 'b2P';\\nvar last = context.get(name) || 0;\\n\\nvar now= msg.b1P.toString();\\n//var now= \{payload: msg.b1P\};\\n\\n\\n\\n\\nif (last != now) \{\\n    context.set(name, now);\\n    var msg1= \{payload: now\};\\n    //node.error(now);\\n//node.error(last);\\n    //node.error(last);\\n    return msg1;\\n\}\\n",\
+        "outputs": 1,\
+        "noerr": 0,\
+        "x": 667,\
+        "y": 1584,\
+        "wires": [\
+            [\
+                "d7512691.27a3e8"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "b95f5df2.58ba38",\
+        "type": "function",\
+        "z": "372e66df.e3fb7a",\
+        "name": "reducer",\
+        "func": "var name = 'b3P';\\nvar last = context.get(name) || 0;\\n\\nvar now= msg.b1P.toString();\\n//var now= \{payload: msg.b1P\};\\n\\n\\n\\n\\nif (last != now) \{\\n    context.set(name, now);\\n    var msg1= \{payload: now\};\\n    //node.error(now);\\n//node.error(last);\\n    //node.error(last);\\n    return msg1;\\n\}\\n",\
+        "outputs": 1,\
+        "noerr": 0,\
+        "x": 668,\
+        "y": 1634,\
+        "wires": [\
+            [\
+                "e7d4bd6b.c754"\
+            ]\
+        ]\
+    \},\
+    \{\
+        "id": "d7512691.27a3e8",\
+        "type": "mqtt out",\
+        "z": "372e66df.e3fb7a",\
+        "name": "",\
+        "topic": "bikes/bike2/pos",\
+        "qos": "",\
+        "retain": "",\
+        "broker": "c26aaba8.df44d8",\
+        "x": 895,\
+        "y": 1583,\
+        "wires": []\
+    \},\
+    \{\
+        "id": "e7d4bd6b.c754",\
+        "type": "mqtt out",\
+        "z": "372e66df.e3fb7a",\
+        "name": "",\
+        "topic": "bikes/bike3/pos",\
+        "qos": "",\
+        "retain": "",\
+        "broker": "c26aaba8.df44d8",\
+        "x": 892,\
+        "y": 1634,\
+        "wires": []\
     \}\
 ]}
