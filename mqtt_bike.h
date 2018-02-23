@@ -36,5 +36,6 @@ void mqtt_bike_init();
 void mqtt_bike_loop();
 
 String getCounter();
+int getBikePos();
 
 #endif

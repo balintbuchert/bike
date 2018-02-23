@@ -81,7 +81,7 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
   // pos check and load
   if(strcmp(topic, POS_TOPIC) == 0)
     if (!isnan((int)payload[0])) {
-        int bikePos= payload[0]; 
+        bikePos= payload[0]; 
       }
 
 
@@ -219,5 +219,9 @@ void mqtt_bike_loop(){
 
 String getCounter(){
   return counter;
+  }
+
+int getBikePos(){
+  return bikePos;
   }
 ///////////////////////////////////////////////////////

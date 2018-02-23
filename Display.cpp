@@ -8,10 +8,13 @@
 // select the display class to use, only one
 #include <GxGDEP015OC1/GxGDEP015OC1.cpp>    // 1.54" b/w
 // FreeFonts from Adafruit_GFX
-#include <Fonts/FreeMonoBold9pt7b.h>
+//#include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
-#include <Fonts/FreeMonoBold18pt7b.h>
+//#include <Fonts/FreeMonoBold18pt7b.h>
 #include <Fonts/FreeMonoBold24pt7b.h>
+
+#include "IMG_0001.h"
+#include "custom_fonts.h"
 
 //#include GxEPD_BitmapExamples
 
@@ -42,8 +45,22 @@ void initDisplay()
   display.setTextColor(GxEPD_BLACK);
   display.setRotation(1);
   
-  display.update();
-  display.setFont(&FreeMonoBold12pt7b);
+   uint16_t r = GxEPD::bm_invert ;
+  // draw background
+  uint16_t x = 0;//;(display.width() - 64) / 2;
+  uint16_t y = 0;
+  //display.fillScreen(GxEPD_WHITE);
+  display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
+//  display.drawExampleBitmap(gImage_IMG_0001, x, y, 200, 200, GxEPD_BLACK, forward);
+
+  //display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
+    display.update();
+    //display.updateWindow(0, 0, GxEPD_HEIGHT, GxEPD_HEIGHT, true); // update all dispaly on one time 
+
+  display.setFont(&SansSerif_bold_36);
+  
+  //display.update();
+  //display.setFont(&FreeMonoBold12pt7b);
   start_time = next_time = millis();
   next_full_update = start_time + full_update_period_s * 1000;
    
@@ -167,14 +184,98 @@ void showProcess()
   
   }
 
+
+void showMainUpdatea()
+{
+  uint16_t box_x_W = 20;
+  uint16_t box_y_W = 63;
+  uint16_t box_w_W = 130;
+  uint16_t box_h_W = 40;
+
+  uint16_t box_x_Wh = 20;
+  uint16_t box_y_Wh = 115;
+  uint16_t box_w_Wh = 130;
+  uint16_t box_h_Wh = 40;
+
+  uint16_t box_x_P = 149;
+  uint16_t box_y_P = 157;
+  uint16_t box_w_P = 48;
+  uint16_t box_h_P = 40;
+
+  int bikePos = getBikePos(); 
+
+  //
+ float w = randNumber2/40;
+ float wh = randNumber2/70;
+  
+ char a[3];
+ char b[3];
+ 
+ ///sprintf(a, "%f", 3.123);
+ 
+ // float/ min width / is precision/ buffer
+ dtostrf(w, 4, 2, a);
+ 
+ 
+
+
+  display.setCursor(box_x_W, box_y_W +box_h_W);
+  display.printf(a);
+  //display.updateWindow(box_x_W, box_y_W, box_w_W, box_h_W, true);
+
+  dtostrf(wh, 4, 2, b);
+  display.setCursor(box_x_Wh, box_y_Wh +box_h_Wh);
+  display.printf(b);
+  //display.updateWindow(box_x_Wh, box_y_Wh, box_w_Wh, box_h_Wh, true);
+
+  // position:
+  display.setCursor(box_x_P, box_y_P +box_h_P);
+  display.printf("%d ",bikePos-48 );
+  //display.update();
+   //display.printf("POS: %d \n", bikePos-48 );
+  //display.updateWindow(box_x_P, box_y_P, box_w_P, box_h_P, true);
+  display.updateWindow(0, 0, 200, 200, false); // update all dispaly on one time 
+  
+
+  //display.printf("hello");
+  //display.print(days); display.print("d "); print02d(hours); display.print(":"); print02d(minutes); display.print(":"); print02d(seconds);
+  //display.setCursor(box_x, cursor_y+20);
+  //display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
+  //display.printf("%d\n", test_v);
+  //uint16_t x = (display.width() - 64) / 2;
+  //uint16_t y = 5;
+  //display.fillScreen(GxEPD_WHITE);
+  //display.drawExampleBitmap(gImage_IMG_0001, x, y, 64, 180, GxEPD_BLACK);
+  //display.update();  
+  
+//  display.drawBitmap(0, 0, gridicons_add_image, 24, 24, GxEPD_BLACK);
+  //display.updateWindow(box_x, box_y, box_w, box_h, true);
+}
+  
+
   
 bool showPartialUpdate()
 {
-  showTestUpdate();
-  showBarUpdate();
-  showWhUpdate();
-  display.updateWindow(0, 0, 199, 199, true); // update all dispaly on one time 
-  next_time += partial_update_period_s * 1000;
-  while (millis() < next_time) delay(100);
+  //showTestUpdate();
+  //showBarUpdate();
+  //showWhUpdate();
+   uint16_t r = GxEPD::bm_invert ;
+  // draw background
+  uint16_t x = 0;//;(display.width() - 64) / 2;
+  uint16_t y = 0;
+  //display.fillScreen(GxEPD_WHITE);
+  display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
+    
+  //display.drawBitmap(gImage_IMG_0001, sizeof(gImage_IMG_0001));
+  //display.drawExampleBitmap(gImage_IMG_0001, sizeof(gImage_IMG_0001), GxEPD::bm_default /*| GxEPD::bm_partial_update */| GxEPD::bm_invert | GxEPD::bm_flip_y);
+  showMainUpdatea();
+  //display.update();  
+  //display.updateWindow(0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, true); // update all dispaly on one time 
+  //next_time += partial_update_period_s * 1000;
+  delay(1000);
+  //while (millis() < next_time) delay(100);
   return true;
 }
+
+
+

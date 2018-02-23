@@ -25,7 +25,6 @@ float get_watt()
 void calck_A()
 {
 
-  
 //((AvgAcs * (5.0 / 1024.0)) is converitng the read voltage in 0-5 volts
 //2.5 is offset(I assumed that arduino is working on 5v so the viout at no current comes
 //out to be 2.5 which is out offset. If your arduino is working on different voltage than 
@@ -34,6 +33,5 @@ void calck_A()
 
    AcsValue = analogRead(34);     //Read current sensor values 
    AcsValueF = ((2.3 - (AcsValue * (3.3 / 4095)) )/0.066 )-1.7;
-  
    
 } 

@@ -45,8 +45,6 @@ void nullWh()
 
 
 
-
-
 void calcWh2()
 {
    
@@ -66,7 +64,7 @@ divide by 0.133 to convert mv to ma
 
 
  batVal =  12; // analogRead(batMonPin);    // read the voltage on the divider 
- pinVoltage = batVal * 0.00488;       //  Calculate the voltage on the A/D pin
+ pinVoltage = batVal * 0.0066;       //  Calculate the voltage on the A/D pin
                                    //  A reading of 1 for the A/D = 0.0048mV
                                    //  if we multiply the A/D reading by 0.00488 then 
                                    //  we get the voltage on the pin.  
