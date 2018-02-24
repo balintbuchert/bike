@@ -184,23 +184,72 @@ void showProcess()
   
   }
 
+int l = 0;
+
+void bar(){
+
+  uint16_t box_x = 6; // strat
+  uint16_t box_y = 114; // start 
+  uint16_t box_w = 16;
+  uint16_t box_h = 100;
+  uint16_t separator_high = 4;
+  uint16_t box_bottom_x = box_x + box_w;
+  uint16_t box_bottom_y = box_y + box_h;
+  int vTmp = 40;
+  int x_step  = 19;
+  int y_step  = 1;
+  int h_step  = 1 ;
+
+  int bar_high = 2;// 0-9
+  int m= 9;
+  int i = 0;
+  
+   
+  for (i = 0 ; i <= l; i++){
+       display.fillRect(box_x+x_step*i, box_y-y_step*i, box_w, separator_high+h_step*i, GxEPD_BLACK);  
+       
+    }
+    
+  //int j = l;
+  for ( int j= l+1  ; j <= 9; j++){
+     display.fillRect(box_x+x_step*j, box_y-y_step*j, box_w, (separator_high)+h_step*j, GxEPD_WHITE);  
+      
+    }
+
+    
+    Serial.println("????");
+    
+
+    //l++;
+    if (m != l ){
+       l = l+1;
+       Serial.println(l);
+      }
+       else
+       l = 0 ;
+ 
+  //display.updateWindow(0, 0, 200, 200, false); // 
+  
+  
+  }
+
 
 void showMainUpdatea()
 {
   uint16_t box_x_W = 20;
   uint16_t box_y_W = 63;
-  uint16_t box_w_W = 130;
+  uint16_t box_w_W = 125;
   uint16_t box_h_W = 40;
 
   uint16_t box_x_Wh = 20;
-  uint16_t box_y_Wh = 115;
-  uint16_t box_w_Wh = 130;
-  uint16_t box_h_Wh = 40;
+  uint16_t box_y_Wh = 120;
+  uint16_t box_w_Wh = 125;
+  uint16_t box_h_Wh = 38;
 
   uint16_t box_x_P = 149;
-  uint16_t box_y_P = 157;
+  uint16_t box_y_P = 168;
   uint16_t box_w_P = 48;
-  uint16_t box_h_P = 40;
+  uint16_t box_h_P = 30;
 
   int bikePos = getBikePos(); 
 
@@ -220,22 +269,27 @@ void showMainUpdatea()
 
 
   display.setCursor(box_x_W, box_y_W +box_h_W);
+  display.fillRect(box_x_W, box_y_W, box_w_W, box_h_W, GxEPD_WHITE);  
   display.printf(a);
   //display.updateWindow(box_x_W, box_y_W, box_w_W, box_h_W, true);
 
   dtostrf(wh, 4, 2, b);
   display.setCursor(box_x_Wh, box_y_Wh +box_h_Wh);
+  display.fillRect(box_x_Wh, box_y_Wh, box_w_Wh, box_h_Wh, GxEPD_WHITE);  
   display.printf(b);
   //display.updateWindow(box_x_Wh, box_y_Wh, box_w_Wh, box_h_Wh, true);
 
   // position:
   display.setCursor(box_x_P, box_y_P +box_h_P);
+  display.fillRect(box_x_P, box_y_P, box_w_P, box_h_P, GxEPD_WHITE);  
   display.printf("%d ",bikePos-48 );
   //display.update();
    //display.printf("POS: %d \n", bikePos-48 );
   //display.updateWindow(box_x_P, box_y_P, box_w_P, box_h_P, true);
+   bar();
   display.updateWindow(0, 0, 200, 200, false); // update all dispaly on one time 
-  
+
+ 
 
   //display.printf("hello");
   //display.print(days); display.print("d "); print02d(hours); display.print(":"); print02d(minutes); display.print(":"); print02d(seconds);
@@ -253,6 +307,8 @@ void showMainUpdatea()
 }
   
 
+
+
   
 bool showPartialUpdate()
 {
@@ -264,11 +320,12 @@ bool showPartialUpdate()
   uint16_t x = 0;//;(display.width() - 64) / 2;
   uint16_t y = 0;
   //display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
+  //display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
     
   //display.drawBitmap(gImage_IMG_0001, sizeof(gImage_IMG_0001));
   //display.drawExampleBitmap(gImage_IMG_0001, sizeof(gImage_IMG_0001), GxEPD::bm_default /*| GxEPD::bm_partial_update */| GxEPD::bm_invert | GxEPD::bm_flip_y);
   showMainUpdatea();
+  
   //display.update();  
   //display.updateWindow(0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, true); // update all dispaly on one time 
   //next_time += partial_update_period_s * 1000;
