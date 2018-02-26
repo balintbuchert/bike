@@ -43,8 +43,8 @@ void mqtt_bike_init()
   client.setCallback(receivedCallback);
 
     /// JSON test config 
-  root["wh"] = 12;
-  root["w"] = 0.44;
+  root["wh"] = get_Wh();
+  root["w"]  =  get_Watt();
   root["id"] = HW_ID;
   root ["V"] = 12.1;
   
@@ -156,7 +156,7 @@ void mqttconnect() {
 
 void mqtt_bike_loop(){
   
-   initDisplayData( onoff, randNumber, bikePos);
+   
    
     /* if client was disconnected then try to reconnect again */
   if (!client.connected()) {
@@ -171,6 +171,7 @@ void mqtt_bike_loop(){
   long now = millis();
   
   randNumber = analogRead(analogIn);
+  calc_energy();
   
   switch (com){
     case 1: // start
@@ -205,7 +206,8 @@ void mqtt_bike_loop(){
       
   }
 
-  root["w"] = get_watt();
+  root["w"] =  get_Watt();
+  root["wh"] = get_Wh();
   
   
   String payload ; 

@@ -69,10 +69,5 @@ on Linux use "ifconfig" to get its IP address */
 // system int 
 void inti();
 
-// retek 
-
-void calcWh( int newValue);
-void calcWh2();
-void nullWh();
 
 #endif

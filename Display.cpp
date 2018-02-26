@@ -22,10 +22,6 @@
 #include <GxIO/GxIO_SPI/GxIO_SPI.cpp>
 #include <GxIO/GxIO.cpp>
 
-
- bool onoff2 = 0;
- float randNumber2;
- char bikePos2 = 0; 
  
 GxIO_Class io(SPI, SS, 17, 16); // arbitrary selection of 17, 16
 GxEPD_Class display(io, 19, 4); // arbitrary selection of (16), 4 
@@ -51,13 +47,8 @@ void initDisplay()
   uint16_t y = 0;
   //display.fillScreen(GxEPD_WHITE);
   display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
-//  display.drawExampleBitmap(gImage_IMG_0001, x, y, 200, 200, GxEPD_BLACK, forward);
-
-  //display.drawExampleBitmap(BitmapExample1, 0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_BLACK);
-    display.update();
-    //display.updateWindow(0, 0, GxEPD_HEIGHT, GxEPD_HEIGHT, true); // update all dispaly on one time 
-
-  display.setFont(&SansSerif_bold_36);
+  display.update();
+  display.setFont(&SansSerif_bold_32);
   
   //display.update();
   //display.setFont(&FreeMonoBold12pt7b);
@@ -65,19 +56,9 @@ void initDisplay()
   next_full_update = start_time + full_update_period_s * 1000;
    
   
-  }
-
-void initDisplayData(bool of , float r, char p){
- onoff2 = of;
- randNumber2 = r;
- //bikePos2 = p;
- 
-
 }
 
-
-
-  
+ 
 void print02d(uint32_t d)
 {
   if (d < 10) display.print("0");
@@ -98,13 +79,13 @@ void showTestUpdate( )
   uint32_t minutes = (elapsed_seconds / 60) % 60;
   uint32_t hours = (elapsed_seconds / 3600) % 24;
   uint32_t days = (elapsed_seconds / 3600) / 24;
-  bool test_v = onoff2;
+  bool test_v = 0;
   char buf[30];
   
   int bikePos = getBikePos(); 
   getCounter().toCharArray(buf,  getCounter().length()+1);// "0:0";
   
-  int vTmp = randNumber2/20;
+  int vTmp = 20;
   display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
   display.setCursor(box_x, cursor_y);
   display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
@@ -119,12 +100,10 @@ void showTestUpdate( )
   display.fillRect(0   ,box_h, vTmp, 6 ,      GxEPD_BLACK);
   display.fillRect(vTmp,box_h, box_w-vTmp , 6 , GxEPD_WHITE);
   
-  //display.updateWindow(box_x, box_y, box_w, box_h, true);
-  
-  
+  //display.updateWindow(box_x, box_y, box_w, box_h, true); 
 }
   
-  
+  /*
 void showBarUpdate()
 {
   uint16_t box_x = 160; // strat
@@ -183,8 +162,13 @@ void showProcess()
   display.updateWindow(box_x, box_y, box_w, box_h, true);
   
   }
+*/
+ 
 
-int l = 0;
+  int l = 0;
+  int max_W = 450;
+  int max_hight = 9;
+  int bar_step = max_W/ max_hight;
 
 void bar(){
 
@@ -200,48 +184,41 @@ void bar(){
   int y_step  = 1;
   int h_step  = 1 ;
 
-  int bar_high = 2;// 0-9
+ 
+  
+  
+  int bar_high = floorf(get_Watt() / bar_step); ;// 0-9 
   int m= 9;
   int i = 0;
   
    
-  for (i = 0 ; i <= l; i++){
-       display.fillRect(box_x+x_step*i, box_y-y_step*i, box_w, separator_high+h_step*i, GxEPD_BLACK);  
-       
+  for (i = 0 ; i <= bar_high; i++){
+       display.fillRect(box_x+x_step*i, box_y-y_step*i, box_w, separator_high+h_step*i, GxEPD_BLACK);         
     }
-    
   //int j = l;
-  for ( int j= l+1  ; j <= 9; j++){
-     display.fillRect(box_x+x_step*j, box_y-y_step*j, box_w, (separator_high)+h_step*j, GxEPD_WHITE);  
-      
+  for ( int j= bar_high+1  ; j <= 9; j++){
+     display.fillRect(box_x+x_step*j, box_y-y_step*j, box_w, (separator_high)+h_step*j, GxEPD_WHITE);   
     }
-
-    
-    Serial.println("????");
-    
-
     //l++;
     if (m != l ){
        l = l+1;
-       Serial.println(l);
+       //Serial.println(l);
       }
        else
        l = 0 ;
  
   //display.updateWindow(0, 0, 200, 200, false); // 
-  
-  
   }
 
 
 void showMainUpdatea()
 {
-  uint16_t box_x_W = 20;
+  uint16_t box_x_W = 18;
   uint16_t box_y_W = 63;
   uint16_t box_w_W = 125;
   uint16_t box_h_W = 40;
 
-  uint16_t box_x_Wh = 20;
+  uint16_t box_x_Wh = 18;
   uint16_t box_y_Wh = 120;
   uint16_t box_w_Wh = 125;
   uint16_t box_h_Wh = 38;
@@ -254,56 +231,36 @@ void showMainUpdatea()
   int bikePos = getBikePos(); 
 
   //
- float w = randNumber2/40;
- float wh = randNumber2/70;
+ //float w = randNumber2/40;
+  float w = get_Watt();
+  float wh = get_Wh();
   
- char a[3];
- char b[3];
+  char a[3];
+  char b[3];
  
- ///sprintf(a, "%f", 3.123);
- 
- // float/ min width / is precision/ buffer
- dtostrf(w, 4, 2, a);
- 
- 
-
-
+  // W
+  // float/ min width / is precision/ buffer
+  dtostrf(w, 4, 1, a);
   display.setCursor(box_x_W, box_y_W +box_h_W);
   display.fillRect(box_x_W, box_y_W, box_w_W, box_h_W, GxEPD_WHITE);  
   display.printf(a);
   //display.updateWindow(box_x_W, box_y_W, box_w_W, box_h_W, true);
 
-  dtostrf(wh, 4, 2, b);
+   // Wh   
+  dtostrf(wh, 4, 1, b);
   display.setCursor(box_x_Wh, box_y_Wh +box_h_Wh);
   display.fillRect(box_x_Wh, box_y_Wh, box_w_Wh, box_h_Wh, GxEPD_WHITE);  
   display.printf(b);
-  //display.updateWindow(box_x_Wh, box_y_Wh, box_w_Wh, box_h_Wh, true);
-
+  
   // position:
   display.setCursor(box_x_P, box_y_P +box_h_P);
   display.fillRect(box_x_P, box_y_P, box_w_P, box_h_P, GxEPD_WHITE);  
   display.printf("%d ",bikePos-48 );
-  //display.update();
-   //display.printf("POS: %d \n", bikePos-48 );
-  //display.updateWindow(box_x_P, box_y_P, box_w_P, box_h_P, true);
+  
    bar();
   display.updateWindow(0, 0, 200, 200, false); // update all dispaly on one time 
 
  
-
-  //display.printf("hello");
-  //display.print(days); display.print("d "); print02d(hours); display.print(":"); print02d(minutes); display.print(":"); print02d(seconds);
-  //display.setCursor(box_x, cursor_y+20);
-  //display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
-  //display.printf("%d\n", test_v);
-  //uint16_t x = (display.width() - 64) / 2;
-  //uint16_t y = 5;
-  //display.fillScreen(GxEPD_WHITE);
-  //display.drawExampleBitmap(gImage_IMG_0001, x, y, 64, 180, GxEPD_BLACK);
-  //display.update();  
-  
-//  display.drawBitmap(0, 0, gridicons_add_image, 24, 24, GxEPD_BLACK);
-  //display.updateWindow(box_x, box_y, box_w, box_h, true);
 }
   
 

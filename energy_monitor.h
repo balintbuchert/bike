@@ -17,10 +17,24 @@
 
 
 
-void watt_calculator();
-float get_watt();
+void calc_W();
+
+float get_Watt();
+
+void calc_Wh( int newValue);
+
+float get_Wh();
+
+float calc_Wh(float v);
+
+void calc_energy();
 
 
+
+
+//float calcWh( int newValue);
+void calcWh2();
+void nullWh();
 
 #endif
 
