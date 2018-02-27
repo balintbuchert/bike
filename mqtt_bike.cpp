@@ -176,7 +176,9 @@ void mqtt_bike_loop(){
   switch (com){
     case 1: // start
        //calcWh( randNumber/40);
-        calcWh2(); 
+        //calcWh2(); 
+        get_Watt();
+        
     }
 
  

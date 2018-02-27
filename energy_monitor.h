@@ -15,7 +15,7 @@
 #ifndef energy_monitor_h
 #define energy_monitor_h
 
-
+ void initEnergy();
 
 void calc_W();
 
@@ -28,6 +28,7 @@ float get_Wh();
 float calc_Wh(float v);
 
 void calc_energy();
+void calck_A();
 
 
 

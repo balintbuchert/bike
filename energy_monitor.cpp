@@ -6,6 +6,8 @@ const int analogIn = 34;
 int sensor_pure_value= 0;
 float AcsValue=0.0,Samples=0.0,AvgAcs=0.0,AcsValueF=0.0;
 
+float amps = 0.0;
+float watts = 0.0;
 
 
 #define INTERVAL 1000  // sampling interval in millisec
@@ -20,19 +22,12 @@ unsigned long lastRead = 0;  // the last time the rate was sampled
 float totalVolume = 0; 
 
 
-
-void calc_W()
-{
-  sensor_pure_value = analogRead(analogIn); // read mv form current sensro.
-  sensor_pure_value =  sensor_pure_value/10;
-  
-   
-}
-
 float get_Watt()
 {
-  //watt_calculator();
-  return sensor_pure_value;
+  //calck_A();
+  
+  //calc_W();
+  return watts;
   
 }
 float get_Wh(){   
@@ -40,22 +35,40 @@ float get_Wh(){
   }
 
 void calc_energy(){
-   calc_W();
-   calc_Wh(sensor_pure_value );
+  calck_A();
+  calcWh2();
    }
+
+int n = 0;
+const int  adcPin = 34;
 
 void calck_A()
 {
+    int i = 100; // avriging counter 
+    //int val = adc1_get_voltage(ADC1_CHANNEL_6);
+    int av =  analogRead(adcPin);                       // ADC12 on GPIO34
+    for(n=1; n<i; n++) av += analogRead(adcPin);
+    av /= i;
+    Serial.print(" ADC12 = ");
+    Serial.println(av,DEC);
 
-//((AvgAcs * (5.0 / 1024.0)) is converitng the read voltage in 0-5 volts
-//2.5 is offset(I assumed that arduino is working on 5v so the viout at no current comes
-//out to be 2.5 which is out offset. If your arduino is working on different voltage than 
-//you must change the offset according to the input voltage)
-//0.066v(66mV) is rise in output voltage when 1A current flows at input
+     float  volt ;
+     float d =  (2.156169/1023);//0.001221;
+     
+     volt =  ((av) * d);
+     Serial.print("V: ");
+     Serial.println(volt);
 
-   AcsValue = analogRead(34);     //Read current sensor values 
-   AcsValueF = ((2.3 - (AcsValue * (3.3 / 4095)) )/0.066 )-1.7;
-   
+     float null_volt = 0.599;
+     float mv_A= 0.048979;
+     float a = (( volt-null_volt )/mv_A);
+     amps = a;
+      
+      //Serial.print("amper: ");
+      //Serial.println(a);
+    
+    
+    //delay(1000);
 } 
 
 
@@ -82,9 +95,6 @@ void calc_Wh( int newValue)
   }
   
 }
-
-
-
 
 
 
@@ -115,7 +125,7 @@ unsigned long hours = 0;
 unsigned long minutes = 0;
 float ampHours = 0.0;
 float wattHours = 0.0;
-float amps = 0.0;
+
 
 
 
@@ -148,7 +158,7 @@ divide by 0.133 to convert mv to ma
                                          //  to calculate the battery voltage
                                          
                                            // print the results to the serial monitor:
- amps = (float) outputValue / 1000;
+ //amps = (float) outputValue / 1000;
  
  Serial.print("Volts = " );                       
  Serial.print(batteryVoltage);      
@@ -156,7 +166,7 @@ divide by 0.133 to convert mv to ma
  Serial.print(amps);  
  Serial.print("\t Power (Watts) = ");   
  
- float watts = amps * batteryVoltage;
+ watts = amps * 12;
  Serial.print(watts);   
  
    
@@ -188,4 +198,10 @@ divide by 0.133 to convert mv to ma
  Serial.println(wattHours);
   
   }
+
+  void initEnergy(){
+    analogSetWidth(10);                           // 10Bit resolution
+    analogSetAttenuation((adc_attenuation_t)34);   // -6dB range
+    
+    }
 

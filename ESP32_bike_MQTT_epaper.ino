@@ -35,8 +35,11 @@ void setup(void){
   
   randomSeed(analogRead(0));  
   Serial.println("setup done");
+
+  
  
- initDisplay();
+  initDisplay();
+  initEnergy();
  
 }
 
@@ -46,6 +49,7 @@ void loop()
 {
  
   mqtt_bike_loop();
+  calc_energy();
  
   /// end mqtt init 
 
