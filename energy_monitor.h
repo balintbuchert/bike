@@ -21,11 +21,12 @@ void calc_W();
 
 float get_Watt();
 
-void calc_Wh( int newValue);
+void calc_Wh();
 
 float get_Wh();
+void calc_W();
 
-float calc_Wh(float v);
+//float calc_Wh();
 
 void calc_energy();
 void calck_A();

@@ -166,7 +166,7 @@ void showProcess()
  
 
   int l = 0;
-  int max_W = 450;
+  int max_W = 250;
   int max_hight = 9;
   int bar_step = max_W/ max_hight;
 
@@ -187,7 +187,7 @@ void bar(){
  
   
   
-  int bar_high = floorf(get_Watt() / bar_step); ;// 0-9 
+  int bar_high = floorf(get_Watt() / bar_step)-1; ;// 0-9 
   int m= 9;
   int i = 0;
   

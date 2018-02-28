@@ -1,10 +1,17 @@
 #include "Arduino.h"
 //#include "Confige.h"
 #include "energy_monitor.h"
+#include <ResponsiveAnalogRead.h>
+#include <driver/adc.h>
+
+// define the pin you want to use
+const int ANALOG_PIN = 34;
 
 const int analogIn = 34;
 int sensor_pure_value= 0;
 float AcsValue=0.0,Samples=0.0,AvgAcs=0.0,AcsValueF=0.0;
+
+ResponsiveAnalogRead analog(ANALOG_PIN, true);
 
 float amps = 0.0;
 float watts = 0.0;
@@ -36,33 +43,64 @@ float get_Wh(){
 
 void calc_energy(){
   calck_A();
-  calcWh2();
+  calc_W();
+  calc_Wh();
    }
+
+void calc_W(){
+   watts= amps* 13;
+  
+  
+  }
 
 int n = 0;
 const int  adcPin = 34;
+float null_volt = 0.600;
+float c = (null_volt / 287)* 1023; 
 
 void calck_A()
 {
-    int i = 100; // avriging counter 
+    analog.update();
+
+  //Serial.print(analog.getRawValue());
+  //Serial.print("\t");
+  Serial.print(analog.getValue());
+  
+  //// if the repsonsive value has change, print out 'changed'
+  
+  //if(analog.hasChanged()) {
+    //Serial.print("\tchanged");
+ // }
+
+  int i = 100;
     //int val = adc1_get_voltage(ADC1_CHANNEL_6);
-    int av =  analogRead(adcPin);                       // ADC12 on GPIO34
-    for(n=1; n<i; n++) av += analogRead(adcPin);
+    int av =  analog.getValue();//adc1_get_voltage(ADC1_CHANNEL_6);//analogRead(34);                       // ADC12 on GPIO2
+    for(n=1; n<i; n++) av += analog.getValue();//adc1_get_voltage(ADC1_CHANNEL_6);//analogRead(34);
     av /= i;
     Serial.print(" ADC12 = ");
     Serial.println(av,DEC);
 
-     float  volt ;
-     float d =  (2.156169/1023);//0.001221;
+    float  volt ;
+    float d =  (4.535/2043);//0.001221;
      
      volt =  ((av) * d);
      Serial.print("V: ");
      Serial.println(volt);
 
-     float null_volt = 0.599;
+     float null_volt = 0.627;
      float mv_A= 0.048979;
      float a = (( volt-null_volt )/mv_A);
-     amps = a;
+
+       a = a-0.5;
+      if(a <= 0) 
+       a = 0;
+       
+       amps = a;
+       
+      Serial.print("amper: ");
+      Serial.println(a);
+       
+       
       
       //Serial.print("amper: ");
       //Serial.println(a);
@@ -80,8 +118,8 @@ void nullWh()
 }
 
 
-void calc_Wh( int newValue)
-{
+void calc_Wh(){
+    float newValue = watts;
    if (millis() - lastRead >= INTERVAL){
     lastRead += INTERVAL;
     curr_rate = newValue;   // or whatever function you call; should take << 1 sec
@@ -148,7 +186,7 @@ divide by 0.133 to convert mv to ma
 */
 
 
- batVal =  12; // analogRead(batMonPin);    // read the voltage on the divider 
+ batVal =  13; // analogRead(batMonPin);    // read the voltage on the divider 
  pinVoltage = batVal * 0.0066;       //  Calculate the voltage on the A/D pin
                                    //  A reading of 1 for the A/D = 0.0048mV
                                    //  if we multiply the A/D reading by 0.00488 then 
@@ -166,7 +204,7 @@ divide by 0.133 to convert mv to ma
  Serial.print(amps);  
  Serial.print("\t Power (Watts) = ");   
  
- watts = amps * 12;
+ watts = amps * 13;
  Serial.print(watts);   
  
    
@@ -200,8 +238,8 @@ divide by 0.133 to convert mv to ma
   }
 
   void initEnergy(){
-    analogSetWidth(10);                           // 10Bit resolution
-    analogSetAttenuation((adc_attenuation_t)34);   // -6dB range
+   adc1_config_width(ADC_WIDTH_11Bit);
+   adc1_config_channel_atten(ADC1_CHANNEL_6,ADC_ATTEN_11db);
     
     }
 
