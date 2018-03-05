@@ -164,9 +164,9 @@ void showProcess()
   }
 */
  
-
+//git
   int l = 0;
-  int max_W = 250;
+  int max_W = 159;
   int max_hight = 9;
   int bar_step = max_W/ max_hight;
 

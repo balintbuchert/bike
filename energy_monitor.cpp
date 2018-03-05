@@ -10,6 +10,7 @@ const int ANALOG_PIN = 34;
 const int analogIn = 34;
 int sensor_pure_value= 0;
 float AcsValue=0.0,Samples=0.0,AvgAcs=0.0,AcsValueF=0.0;
+int av2;
 
 ResponsiveAnalogRead analog(ANALOG_PIN, true);
 
@@ -55,8 +56,8 @@ void calc_W(){
 
 int n = 0;
 const int  adcPin = 34;
-float null_volt = 0.600;
-float c = (null_volt / 287)* 1023; 
+//float null_volt = 0.600;
+//float c = (null_volt / 287)* 1023; 
 
 void calck_A()
 {
@@ -81,21 +82,26 @@ void calck_A()
     Serial.println(av,DEC);
 
     float  volt ;
-    float d =  (4.535/2043);//0.001221;
+    //float d =  (4.535/2043);//0.001221;
+    float null_volt =0.6;// 0.760;
+    int ad =520;// 677;
+    float d =  null_volt / ad ;//0.001221;
+    av2 = av;
      
      volt =  ((av) * d);
      Serial.print("V: ");
      Serial.println(volt);
 
-     float null_volt = 0.627;
-     float mv_A= 0.048979;
-     float a = (( volt-null_volt )/mv_A);
+     
+    // float null_volt = 0.627;
+     float mv_A= 19.378979;
+     float a = (( volt-null_volt )*mv_A);
 
-       a = a-0.5;
+       //a = a-0.5;
       if(a <= 0) 
        a = 0;
        
-       amps = a;
+      amps = a;
        
       Serial.print("amper: ");
       Serial.println(a);
@@ -239,7 +245,12 @@ divide by 0.133 to convert mv to ma
 
   void initEnergy(){
    adc1_config_width(ADC_WIDTH_11Bit);
-   adc1_config_channel_atten(ADC1_CHANNEL_6,ADC_ATTEN_11db);
+   adc1_config_channel_atten(ADC1_CHANNEL_6,ADC_ATTEN_6db);
     
     }
+
+
+int get_ad(){
+  return av2;
+  }    
 

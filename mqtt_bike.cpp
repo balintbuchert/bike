@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "mqtt_bike.h"
 #include "Confige.h"
+#include "energy_monitor.h"
 
 
 /* create an instance of PubSubClient client */
@@ -47,6 +48,7 @@ void mqtt_bike_init()
   root["w"]  =  get_Watt();
   root["id"] = HW_ID;
   root ["V"] = 12.1;
+  root["ad"] = get_ad();//
   
  
   JsonArray& data = root.createNestedArray("data");
@@ -210,7 +212,7 @@ void mqtt_bike_loop(){
 
   root["w"] =  get_Watt();
   root["wh"] = get_Wh();
-  
+  root["ad"] = 0;//get_ad();//
   
   String payload ; 
   root.printTo(payload);

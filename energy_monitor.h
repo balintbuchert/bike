@@ -30,6 +30,7 @@ void calc_W();
 
 void calc_energy();
 void calck_A();
+int get_ad();
 
 
 
