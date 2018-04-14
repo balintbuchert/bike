@@ -5,14 +5,14 @@
 #include <driver/adc.h>
 
 // define the pin you want to use
-const int ANALOG_PIN = 34;
+//const int ANALOG_PIN = 12;
 
-const int analogIn = 34;
+const int analogIn = 14;
 int sensor_pure_value= 0;
 float AcsValue=0.0,Samples=0.0,AvgAcs=0.0,AcsValueF=0.0;
 int av2;
 
-ResponsiveAnalogRead analog(ANALOG_PIN, true);
+//ResponsiveAnalogRead analog(ANALOG_PIN, true);
 
 float amps = 0.0;
 float watts = 0.0;
@@ -55,17 +55,17 @@ void calc_W(){
   }
 
 int n = 0;
-const int  adcPin = 34;
+const int  adcPin = 12;
 //float null_volt = 0.600;
 //float c = (null_volt / 287)* 1023; 
 
 void calck_A()
 {
-    analog.update();
+//    analog.update();
 
   //Serial.print(analog.getRawValue());
   //Serial.print("\t");
-  Serial.print(analog.getValue());
+//  Serial.print(analog.getValue());
   
   //// if the repsonsive value has change, print out 'changed'
   
@@ -75,36 +75,52 @@ void calck_A()
 
   int i = 100;
     //int val = adc1_get_voltage(ADC1_CHANNEL_6);
-    int av =  analog.getValue();//adc1_get_voltage(ADC1_CHANNEL_6);//analogRead(34);                       // ADC12 on GPIO2
-    for(n=1; n<i; n++) av += analog.getValue();//adc1_get_voltage(ADC1_CHANNEL_6);//analogRead(34);
-    av /= i;
-    Serial.print(" ADC12 = ");
+    int av = analogRead(34); //adc1_get_voltage(ADC1_CHANNEL_6);//analogRead(34)//analog.getValue();//adc1_get_voltage(ADC1_CHANNEL_6);//analogRead(34);                       // ADC12 on GPIO2
+    //for(n=1; n<i; n++) av +=analogRead(analogIn);  //adc1_get_voltage(ADC1_CHANNEL_6);//analogRead(34);
+    //av /= i;
+    Serial.print(" ADC13 = ");
     Serial.println(av,DEC);
 
     float  volt ;
-    //float d =  (4.535/2043);//0.001221;
-    float null_volt =0.6;// 0.760;
-    int ad =520;// 677;
-    float d =  null_volt / ad ;//0.001221;
-    av2 = av;
+     float null_volt = 0;
+
+     // calibaration 
+     int cW = 35; // calibration load 
+     int cV = 12; // calibariton voltage
+     float cA = cW/cV;
+
+     int cD = 164; // ad on 35W 12V 
+
+     float eI = 0.0178;  //cA / cD; // analog reas step/ amper
+
      
-     volt =  ((av) * d);
-     Serial.print("V: ");
-     Serial.println(volt);
+    // //float cor = 1.66;
+   //float c  = eI * av;  // current = analog step/ amp * analog read  
+    //float  volt ;
+    //float d =  (4.535/2043);//0.001221;
+    //float null_volt =0.6;// 0.760;
+    //int ad =520;// 677;
+    //float d =  null_volt / ad ;//0.001221;
+    //av2 = av;
+     
+     //volt =  ((av) * d);
+     //Serial.print("V: ");
+     //Serial.println(volt);
 
      
     // float null_volt = 0.627;
-     float mv_A= 19.378979;
-     float a = (( volt-null_volt )*mv_A);
+     //float mv_A= 19.378979;
+     //float a = (( volt-null_volt )*mv_A);
 
        //a = a-0.5;
-      if(a <= 0) 
-       a = 0;
-       
-      amps = a;
+     // if(a <= 0) 
+      // a = 0;
+
+        float c  = eI * av;  // current = analog step/ amp * analog read  
+        amps = c;
        
       Serial.print("amper: ");
-      Serial.println(a);
+      Serial.println(c);
        
        
       
@@ -152,7 +168,7 @@ void calc_Wh(){
 //unsigned long lastRead = 0;  // the last time the rate was sampled
 //float totalVolume = 0; 
 
-int batMonPin = 34;    // input pin for the voltage divider
+int batMonPin = 12;    // input pin for the voltage divider
 int batVal = 0;       // variable for the A/D value
 float pinVoltage = 0; // variable to hold the calculated voltage
 float batteryVoltage = 0;
@@ -178,7 +194,7 @@ void calcWh2()
 {
    
  // read the analog in value:
- sensorValue = analogRead(analogIn);            
+// sensorValue = analogRead(analogIn);            
  // convert to milli amps
  outputValue = (((long)sensorValue * 5000 / 1024) - 500 ) * 1000 / 133;  
  
@@ -244,9 +260,10 @@ divide by 0.133 to convert mv to ma
   }
 
   void initEnergy(){
-   adc1_config_width(ADC_WIDTH_11Bit);
-   adc1_config_channel_atten(ADC1_CHANNEL_6,ADC_ATTEN_6db);
-    
+   //adc1_config_width(ADC_WIDTH_12Bit);
+   //adc1_config_channel_atten(ADC1_CHANNEL_6,ADC_ATTEN_6db);
+    analogSetWidth(10);                           // 10Bit resolution
+    analogSetAttenuation((adc_attenuation_t)12);   // -6dB range 
     }
 
 

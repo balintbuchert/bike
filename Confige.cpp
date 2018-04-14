@@ -31,6 +31,7 @@ void init(){
   
   pinMode(16, OUTPUT);
   pinMode(34, INPUT);
+  pinMode(14, INPUT);
 
   Serial.begin(BAUDRATE_SERIAL);
   Serial.println();
