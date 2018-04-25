@@ -29,7 +29,7 @@
 #include "energy_monitor.h"
 
 /* bike hardware ID*/
-#define HW_ID  1 
+#define HW_ID  2 
 
 /* serial baud rate */
 #define BAUDRATE_SERIAL 115200
@@ -59,7 +59,8 @@ on Linux use "ifconfig" to get its IP address */
 
 //#define TEMP_TOPIC    "bikes/bike1/temp"
 #define LED_TOPIC     "bikes/bike1/led" /* 1=on, 0=off */
-#define POS_TOPIC     "bikes/bike1/pos"
+
+#define POS_TOPIC     "bikes/bike2/pos"
 #define COM_TOPIC     "bikes/com"
 //#define WH_TOPIC      "bikes/bike1/wh"
 //#define MAIN_TOPIC    "bikes/bike1/#"

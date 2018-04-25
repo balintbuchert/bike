@@ -16,6 +16,7 @@ int av2;
 
 float amps = 0.0;
 float watts = 0.0;
+float generatad_voltage= 12;
 
 
 #define INTERVAL 1000  // sampling interval in millisec
@@ -49,7 +50,7 @@ void calc_energy(){
    }
 
 void calc_W(){
-   watts= amps* 13;
+   watts= amps* generatad_voltage;
   
   
   }
@@ -91,7 +92,7 @@ void calck_A()
 
      int cD = 164; // ad on 35W 12V 
 
-     float eI = 0.0178;  //cA / cD; // analog reas step/ amper
+    float eI = 0.01279;  //cA / cD; // analog reas step/ amper
 
      
     // //float cor = 1.66;
@@ -136,7 +137,8 @@ void calck_A()
 
 void nullWh()
 {
-  totalVolume = NULL;    
+  
+  totalVolume = 0;    
 }
 
 

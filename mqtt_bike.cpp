@@ -109,7 +109,7 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
           case 2: {// reset
             // statements
              Serial.println("RESRT");
-             nullWh();;
+             nullWh();
              
           }
             break;
