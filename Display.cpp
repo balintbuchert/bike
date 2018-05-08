@@ -38,17 +38,16 @@ void initDisplay()
 {
    display.init();
 
-  display.setTextColor(GxEPD_BLACK);
-  display.setRotation(1);
-  
-   uint16_t r = GxEPD::bm_invert ;
+   
+   //uint16_t r = GxEPD::bm_invert ;
   // draw background
-  uint16_t x = 0;//;(display.width() - 64) / 2;
-  uint16_t y = 0;
+  //uint16_t x = 0;//;(display.width() - 64) / 2;
+  //uint16_t y = 0;
+  initBackground();
   //display.fillScreen(GxEPD_WHITE);
-  display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
-  display.update();
-  display.setFont(&SansSerif_bold_32);
+    //display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
+    //display.update();
+    //display.setFont(&SansSerif_bold_32);
   
   //display.update();
   //display.setFont(&FreeMonoBold12pt7b);
@@ -58,6 +57,18 @@ void initDisplay()
   
 }
 
+void initBackground()
+{
+  display.setTextColor(GxEPD_BLACK);
+  display.setRotation(1);
+  uint16_t r = GxEPD::bm_invert ;
+  uint16_t x = 0;//;(display.width() - 64) / 2;
+  uint16_t y = 0;
+  display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
+  display.update();
+  display.setFont(&SansSerif_bold_32);
+  
+  }
  
 void print02d(uint32_t d)
 {
@@ -65,6 +76,33 @@ void print02d(uint32_t d)
   display.print(d);
 }
 
+void statusScreen()
+{
+  uint16_t box_x = 0;
+  uint16_t box_y = 5;
+  uint16_t box_w = 199;
+  uint16_t box_h = 180;
+  uint16_t cursor_y = box_y + 16;
+  display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
+  display.setCursor(box_x, cursor_y);
+  display.setFont(&FreeMonoBold12pt7b);
+  display.printf("Connecting..." );
+  display.printf(" ");
+  display.println(ssid);
+  display.println(" IP: ");
+  display.printf(" ");
+  //const char* ip = WiFi.localIP();
+  display.println( WiFi.localIP());
+  display.println(" SERVER: "); 
+  display.printf(" ");
+  display.println(mqtt_server);
+  display.printf(" HW_ID: "); 
+  display.println(HW_ID);
+  
+  
+  display.updateWindow(box_x, box_y, box_w, box_h, true);
+  
+ }
 
 void showTestUpdate( )
 {

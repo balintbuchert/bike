@@ -48,6 +48,10 @@ void showWhUpdate();
 
 void showProcess();
 
+void statusScreen();
+
+void initBackground();
+
 void print02d(uint32_t d);
 
 
