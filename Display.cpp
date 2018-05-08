@@ -16,9 +16,6 @@
 #include "IMG_0001.h"
 #include "custom_fonts.h"
 
-//#include GxEPD_BitmapExamples
-
-
 #include <GxIO/GxIO_SPI/GxIO_SPI.cpp>
 #include <GxIO/GxIO.cpp>
 
@@ -36,25 +33,12 @@ uint32_t next_full_update;
 
 void initDisplay()
 {
-   display.init();
-
-   
-   //uint16_t r = GxEPD::bm_invert ;
-  // draw background
-  //uint16_t x = 0;//;(display.width() - 64) / 2;
-  //uint16_t y = 0;
+  display.init();
   initBackground();
-  //display.fillScreen(GxEPD_WHITE);
-    //display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
-    //display.update();
-    //display.setFont(&SansSerif_bold_32);
   
-  //display.update();
-  //display.setFont(&FreeMonoBold12pt7b);
   start_time = next_time = millis();
-  next_full_update = start_time + full_update_period_s * 1000;
-   
-  
+  next_full_update = start_time + full_update_period_s * 1000; // oriign 1000
+     
 }
 
 void initBackground()
@@ -87,18 +71,20 @@ void statusScreen()
   display.setCursor(box_x, cursor_y);
   display.setFont(&FreeMonoBold12pt7b);
   display.printf("Connecting..." );
+  
   display.printf(" ");
   display.println(ssid);
+  
   display.println(" IP: ");
   display.printf(" ");
-  //const char* ip = WiFi.localIP();
   display.println( WiFi.localIP());
+  
   display.println(" SERVER: "); 
   display.printf(" ");
+  
   display.println(mqtt_server);
   display.printf(" HW_ID: "); 
   display.println(HW_ID);
-  
   
   display.updateWindow(box_x, box_y, box_w, box_h, true);
   
@@ -127,7 +113,6 @@ void showTestUpdate( )
   display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
   display.setCursor(box_x, cursor_y);
   display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
-  //display.print(days); display.print("d "); print02d(hours); display.print(":"); print02d(minutes); display.print(":"); print02d(seconds);
   display.setCursor(box_x, cursor_y+20);
   //display.printf("%0dd %02d:%02d:%02d", days, hours, minutes, seconds);
   //display.printf("LED:%d V:%.1d \n", test_v, vTmp);
@@ -138,77 +123,17 @@ void showTestUpdate( )
   display.fillRect(0   ,box_h, vTmp, 6 ,      GxEPD_BLACK);
   display.fillRect(vTmp,box_h, box_w-vTmp , 6 , GxEPD_WHITE);
   
-  //display.updateWindow(box_x, box_y, box_w, box_h, true); 
 }
   
-  /*
-void showBarUpdate()
-{
-  uint16_t box_x = 160; // strat
-  uint16_t box_y = 99; // start 
-  uint16_t box_w = 40;
-  uint16_t box_h = 100;
-  uint16_t separator_high = 2;
-  uint16_t box_bottom_x = box_x + box_w;
-  uint16_t box_bottom_y = box_y + box_h;
-  int vTmp = randNumber2/40;
-  
-  display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
-  //display.fillRect(box_x, box_y, box_w, box_h, GxEPD_BLACK);
-  display.fillRect(box_x, box_bottom_y, box_w,  -1*vTmp,  GxEPD_BLACK);
-  // bar parameters ( start point horisontal, strat point vertical, width , level , colour); 
-  
-  display.fillRect(box_x, box_y+10, box_w, separator_high, GxEPD_WHITE);
-  display.fillRect(box_x, box_y+30, box_w, separator_high, GxEPD_WHITE);
-  display.fillRect(box_x, box_y+50, box_w, separator_high, GxEPD_WHITE);
-  display.fillRect(box_x, box_y+70, box_w, separator_high, GxEPD_WHITE);
-  display.fillRect(box_x, box_y+90, box_w, separator_high, GxEPD_WHITE); 
-  
-  //display.updateWindow(box_x, box_y, box_w, box_h, true);
-  
-  }
-void showWhUpdate()
-{
-  uint16_t box_x = 40; // strat
-  uint16_t box_y = 110; // start 
-  uint16_t box_w = 115;
-  uint16_t box_h = 80;
-  int vTmp = randNumber2/40;
-  
-  display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
-  display.setFont(&FreeMonoBold24pt7b);
-  display.setCursor(box_x, box_y+box_h-24);
-  //display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
-  display.printf("%-dW",vTmp);
-  display.setFont(&FreeMonoBold12pt7b);
-  
-  //display.updateWindow(box_x, box_y, box_w, box_h, true);
-  
-  }
-
-void showProcess()
-{
-  uint16_t box_x = 15;
-  uint16_t box_y = 15;
-  uint16_t box_w = 189;
-  uint16_t box_h = 75;
-  uint16_t cursor_y = box_y + 16;
-  display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
-  display.setCursor(box_x, cursor_y);
-  display.setFont(&FreeMonoBold12pt7b);
-  display.printf("Connecting..." );
-  display.updateWindow(box_x, box_y, box_w, box_h, true);
-  
-  }
-*/
- 
 //git
+
   int l = 0;
   int max_W = 159;
   int max_hight = 9;
   int bar_step = max_W/ max_hight;
 
-void bar(){
+/// bar graph on th emidel of the screen 
+void bar(){  
 
   uint16_t box_x = 6; // strat
   uint16_t box_y = 114; // start 
@@ -222,31 +147,23 @@ void bar(){
   int y_step  = 1;
   int h_step  = 1 ;
 
- 
-  
-  
   int bar_high = floorf(get_Watt() / bar_step)-1; ;// 0-9 
   int m= 9;
   int i = 0;
-  
-   
+     
   for (i = 0 ; i <= bar_high; i++){
        display.fillRect(box_x+x_step*i, box_y-y_step*i, box_w, separator_high+h_step*i, GxEPD_BLACK);         
     }
-  //int j = l;
+  
   for ( int j= bar_high+1  ; j <= 9; j++){
      display.fillRect(box_x+x_step*j, box_y-y_step*j, box_w, (separator_high)+h_step*j, GxEPD_WHITE);   
     }
-    //l++;
-    if (m != l ){
+   
+    if (m != l )
        l = l+1;
-       //Serial.println(l);
-      }
-       else
+    else
        l = 0 ;
- 
-  //display.updateWindow(0, 0, 200, 200, false); // 
-  }
+ }// end of bar
 
 
 void showMainUpdatea()
@@ -295,37 +212,21 @@ void showMainUpdatea()
   display.fillRect(box_x_P, box_y_P, box_w_P, box_h_P, GxEPD_WHITE);  
   display.printf("%d ",bikePos-48 );
   
-   bar();
-  display.updateWindow(0, 0, 200, 200, false); // update all dispaly on one time 
-
- 
-}
+  bar();
   
-
-
-
+  display.updateWindow(0, 0, 200, 200, false); // update all dispaly on one time 
+}
   
 bool showPartialUpdate()
 {
-  //showTestUpdate();
-  //showBarUpdate();
-  //showWhUpdate();
+  
    uint16_t r = GxEPD::bm_invert ;
-  // draw background
+ 
   uint16_t x = 0;//;(display.width() - 64) / 2;
   uint16_t y = 0;
-  //display.fillScreen(GxEPD_WHITE);
-  //display.drawExampleBitmap(gImage_IMG_0001, x, y, GxEPD_WIDTH, GxEPD_HEIGHT, GxEPD_WHITE,r);
-    
-  //display.drawBitmap(gImage_IMG_0001, sizeof(gImage_IMG_0001));
-  //display.drawExampleBitmap(gImage_IMG_0001, sizeof(gImage_IMG_0001), GxEPD::bm_default /*| GxEPD::bm_partial_update */| GxEPD::bm_invert | GxEPD::bm_flip_y);
-  showMainUpdatea();
   
-  //display.update();  
-  //display.updateWindow(0, 0, GxEPD_WIDTH, GxEPD_HEIGHT, true); // update all dispaly on one time 
-  //next_time += partial_update_period_s * 1000;
-  delay(1000);
-  //while (millis() < next_time) delay(100);
+  showMainUpdatea();
+  delay(100);
   return true;
 }
 

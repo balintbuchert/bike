@@ -69,7 +69,7 @@ on Linux use "ifconfig" to get its IP address */
 
 
 // system int 
-void inti();
+void inti_system();
 
 
 #endif

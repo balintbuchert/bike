@@ -35,7 +35,6 @@ void setup(void){
   
   //randomSeed(analogRead(0));  
   Serial.println("setup done");
- 
 }
 
 
@@ -45,9 +44,7 @@ void loop()
  
   mqtt_bike_loop();
   calc_energy();
- 
-  /// end mqtt init 
-
+  
   // display data 
  showPartialUpdate();
 

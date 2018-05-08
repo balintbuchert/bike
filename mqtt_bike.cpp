@@ -23,6 +23,8 @@ const int analogIn = 34;
 
 String output;// json main output string
 
+bool enabled = 1; // start stop function 
+
 
 ////////
 
@@ -104,6 +106,7 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
           case (1):{ // start 
              Serial.println("START");
              //bikePos= '0'; 
+              enabled = 1;
           }
           break;        
           case 2: {// reset
@@ -116,6 +119,7 @@ void receivedCallback(char* topic, byte* payload, unsigned int length) {
           case 0: {// stop
               Serial.println("STOP");
               //bikePos= '8' ;
+              enabled = 0;
           }
             break;
                
@@ -217,7 +221,8 @@ void mqtt_bike_loop(){
   String payload ; 
   root.printTo(payload);
   payload.toCharArray(data, (payload.length() + 1));
-  
+
+  if(enabled)
   client.publish("bikes/message", data);
 
   

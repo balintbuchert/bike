@@ -5,7 +5,7 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 
-void init(){
+void init_system(){
   
   pinMode(16, OUTPUT);
   pinMode(34, INPUT);
