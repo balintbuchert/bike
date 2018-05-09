@@ -38,7 +38,7 @@ void initDisplay();
 
 void initDisplayData(bool of, float r, char p);
 
-bool showPartialUpdate();
+bool showPartialUpdate(bool con);
 
 void showTestUpdate( );
 
@@ -49,6 +49,8 @@ void showWhUpdate();
 void showProcess();
 
 void statusScreen();
+
+void initDisplay();
 
 void initBackground();
 

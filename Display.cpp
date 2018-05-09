@@ -63,9 +63,9 @@ void print02d(uint32_t d)
 void statusScreen()
 {
   uint16_t box_x = 0;
-  uint16_t box_y = 5;
+  uint16_t box_y = 0;
   uint16_t box_w = 199;
-  uint16_t box_h = 180;
+  uint16_t box_h = 199;
   uint16_t cursor_y = box_y + 16;
   display.fillRect(box_x, box_y, box_w, box_h, GxEPD_WHITE);
   display.setCursor(box_x, cursor_y);
@@ -166,7 +166,7 @@ void bar(){
  }// end of bar
 
 
-void showMainUpdatea()
+void showMainUpdatea( bool con)
 {
   uint16_t box_x_W = 18;
   uint16_t box_y_W = 63;
@@ -180,9 +180,20 @@ void showMainUpdatea()
 
   uint16_t box_x_P = 149;
   uint16_t box_y_P = 168;
-  uint16_t box_w_P = 48;
+  uint16_t box_w_P = 30;
   uint16_t box_h_P = 30;
 
+  uint16_t box_x_C = 192;
+  uint16_t box_y_C = 192;
+  uint16_t box_w_C = 4;
+  uint16_t box_h_C = 4;
+
+
+ // conectinon state blinker
+  if(con)
+    display.fillRect(box_x_C, box_y_C, box_w_C, box_h_C, GxEPD_WHITE);  
+  else
+    display.fillRect(box_x_C, box_y_C, box_w_C, box_h_C, GxEPD_BLACK); 
   int bikePos = getBikePos(); 
 
   //
@@ -194,6 +205,7 @@ void showMainUpdatea()
   char b[3];
  
   // W
+  
   // float/ min width / is precision/ buffer
   dtostrf(w, 4, 1, a);
   display.setCursor(box_x_W, box_y_W +box_h_W);
@@ -201,6 +213,8 @@ void showMainUpdatea()
   display.printf(a);
   //display.updateWindow(box_x_W, box_y_W, box_w_W, box_h_W, true);
 
+   
+    
    // Wh   
   dtostrf(wh, 4, 1, b);
   display.setCursor(box_x_Wh, box_y_Wh +box_h_Wh);
@@ -213,21 +227,24 @@ void showMainUpdatea()
   display.printf("%d ",bikePos-48 );
   
   bar();
+
+   
   
   display.updateWindow(0, 0, 200, 200, false); // update all dispaly on one time 
 }
   
-bool showPartialUpdate()
+bool showPartialUpdate(bool con)
 {
   
-   uint16_t r = GxEPD::bm_invert ;
+  uint16_t r = GxEPD::bm_invert ;
  
   uint16_t x = 0;//;(display.width() - 64) / 2;
   uint16_t y = 0;
   
-  showMainUpdatea();
+  showMainUpdatea(con);
   delay(100);
   return true;
+
 }
 
 

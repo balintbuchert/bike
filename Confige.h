@@ -34,7 +34,6 @@
 /* serial baud rate */
 #define BAUDRATE_SERIAL 115200
 
-
 /* change it with your ssid-password */
 #define ssid  "PLUSNET-ZM82"
 
@@ -49,6 +48,7 @@ on Wins use "ipconfig"
 on Linux use "ifconfig" to get its IP address */
 //const char* mqtt_server = "192.168.0.51";
 #define mqtt_server  "192.168.0.51"
+//#define mqtt_server  "192.168.88.250"
 
 
 
@@ -69,7 +69,7 @@ on Linux use "ifconfig" to get its IP address */
 
 
 // system int 
-void inti_system();
+void inti();
 
 
 #endif

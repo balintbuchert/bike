@@ -38,7 +38,7 @@ void setup(void){
 }
 
 
-
+bool st = false;
 void loop()
 {
  
@@ -46,8 +46,18 @@ void loop()
   calc_energy();
   
   // display data 
- showPartialUpdate();
-
+ 
+ if (WiFi.status() == WL_CONNECTED){
+    
+    st = !st; 
+    Serial.println(st);
+  }
+  else{
+    
+    st = true;
+  }
+  showPartialUpdate(st);
+ 
 
 }
 

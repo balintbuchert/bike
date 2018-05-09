@@ -5,7 +5,7 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 
-void init_system(){
+void init(){
   
   pinMode(16, OUTPUT);
   pinMode(34, INPUT);
@@ -27,8 +27,11 @@ void init_system(){
   // init networkd
   Serial.print("Connecting to ");
   Serial.println(ssid);
+  delay(100);
+  statusScreen();
 
   while (WiFi.status() != WL_CONNECTED) {
+   
     delay(500);
     Serial.print(".");
     WiFi.begin(ssid, password); 
